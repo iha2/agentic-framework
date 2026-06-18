@@ -1,4 +1,4 @@
-# Agentic Executed Software Delivery
+# Agent Executed Software Delivery
 
 **Agentic Software Delivery Methodology** — agent-native, human-governed delivery for software products, global web experiences, microservices, data-backed services, platforms, and internal enterprise applications.
 
