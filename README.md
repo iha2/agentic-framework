@@ -81,8 +81,8 @@ For the full progression, see [methodology.md](methodology.md).
 
 Many corporate programs need **non-technical stakeholders** to read, comment on, and approve direction **outside** the repo. A practical pattern is:
 
-- **Proposals** — Maintain the **vetting copy** where stakeholders already work: for example **GitHub** (issues, discussions, wiki, or linked docs), **SharePoint** (pages, document libraries, review workflows), and/or **Miro** (boards for options, flows, and workshops). Use `<DOCS_ROOT>/proposals/` in Git for **stable pointers**: title, owner, status, summary, link to the public artifact, and revision or “last reviewed” metadata so agents and engineers have a single place to resolve “where is the current proposal?”
-- **Project and architecture** — Keep **authoritative** narrative and visuals for humans in **SharePoint** (Word, PowerPoint, exported HTML or PDF, etc.) for portfolio reviews, steering committees, and shared drives. Maintain **`project.md`** and **`architecture/`** markdown in the repo as the **agent-reference** view: concise, structured, and loadable in context. `AGENTS.md` must state which surface is authoritative for sign-off and who is responsible for **keeping the repo copy aligned** with SharePoint when they diverge.
+- **Proposals** — Maintain the **vetting copy** where stakeholders already work: for example **GitHub** (issues, discussions, wiki, or linked docs), **SharePoint** (pages, document libraries, review workflows), and/or **Miro** (boards for options, flows, and workshops). Use `<DOCS_ROOT>/proposals/` in Git for **stable pointers**: title, owner, status, summary, link to the public artifact, and revision or “last reviewed” metadata so agents and engineers have a single place to resolve “where is the current proposal?” Default Miro links and board conventions belong in **pointer files or `project.md`**, not in a long `AGENTS.md`.
+- **Project and architecture** — Keep **authoritative** narrative and visuals for humans in **SharePoint** (Word, PowerPoint, exported HTML or PDF, etc.) for portfolio reviews, steering committees, and shared drives. Maintain **`project.md`** and **`architecture/`** markdown in the repo as the **agent-reference** view: concise, structured, and loadable in context. Record which surface is authoritative for sign-off and who keeps the repo copy aligned in **`project.md`** (or a governance doc); use a **minimal `AGENTS.md`** to point there instead of restating the policy.
 
 Standards, specifications, features, and execution records can stay Git-first as today; the split above mainly affects **early funnel** artifacts that need broad visibility.
 
@@ -195,16 +195,16 @@ Vendor skills into `.agents/skills/` or point your runtime at that directory.
 
 ## Artifact storage
 
-Git remains the system of record for **methodology**, **standards**, **skills**, **specifications** (when on disk), **features**, and **agent-reference** markdown. **Execution policy** belongs in `AGENTS.md`. Default mutable workspace: `<DOCS_ROOT>/execution/` (often gitignored).
+Git remains the system of record for **methodology**, **standards**, **skills**, **specifications** (when on disk), **features**, and **agent-reference** markdown. **Execution routing** (docs root, standards index, tool discovery, agent vs human gates) belongs in a **minimal** `AGENTS.md`; deeper policy belongs in **standards** and **methodology** files. Default mutable workspace: `<DOCS_ROOT>/execution/` (often gitignored).
 
 For **proposals** and **formal project/architecture** packages, the authoritative or stakeholder-vetted version may live on **GitHub**, **SharePoint**, and/or **Miro**; the repo then holds **pointers** and/or **markdown summaries** for agents—see the subsection *Stakeholder-facing vs agent-reference docs* above and [templates/AGENTS.md](templates/AGENTS.md). Use the **`miro-mcp`** skill when boards are part of that story and Miro MCP is enabled.
 
 ## Propagation
 
 ```bash
-rsync -avc /path/to/agentic-engineering-framework/methodology.md /path/to/consumer-repo/methodology.md
-rsync -avc --delete /path/to/agentic-engineering-framework/.agents/skills/ /path/to/consumer-repo/.agents/skills/
-rsync -avc --delete /path/to/agentic-engineering-framework/docs/ /path/to/consumer-repo/docs/
+rsync -avc /path/to/agentic-framework/methodology.md /path/to/consumer-repo/methodology.md
+rsync -avc --delete /path/to/agentic-framework/.agents/skills/ /path/to/consumer-repo/.agents/skills/
+rsync -avc --delete /path/to/agentic-framework/docs/ /path/to/consumer-repo/docs/
 ```
 
 ## Changelog

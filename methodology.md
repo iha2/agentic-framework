@@ -1,6 +1,6 @@
 # Agentic Software Delivery Methodology
 
-This document is the **methodology entry point** for the **Agentic Engineering Framework** repository. Detailed sections live under [`docs/methodology/`](docs/methodology/).
+This document is the **methodology entry point** for the **Agentic Software Delivery Methodology** in this repository (`agentic-framework` on GitHub). Detailed sections live under [`docs/methodology/`](docs/methodology/).
 
 ## Agent-native, human-governed
 
@@ -143,10 +143,10 @@ Utilities such as `jira-api`, `miro-mcp`, `psql`, and `sqlcmd` apply when the re
 
 **Stakeholder-facing vs agent-reference (recommended for SBD Customer Engagement)**
 
-- **Proposals** — Vetted and shared with **non-technical stakeholders** using tools they can access without cloning a repo: e.g. **GitHub** (issues, discussions, wiki, rendered docs), **SharePoint** (libraries, pages, review flows), and/or **Miro** (workshop boards, option diagrams, architecture sketches). Keep under `<DOCS_ROOT>/proposals/` in Git **pointer files** (or a small index) so every agent and engineer resolves the same canonical link, status, and owner. The pointer is the crosswalk between “where humans discuss” and “where code lives.” When using Miro, follow the **`miro-mcp`** skill and declare board URLs in `AGENTS.md`.
-- **Project and architecture** — **Authoritative** packages for governance and stakeholders often live in **SharePoint** as Word, PowerPoint, HTML, or PDF. Maintain **`project.md`** and markdown under **`architecture/`** in the repo as the **agent-reference** layer: structured, diffable, and easy to load into agent context. `AGENTS.md` must record (1) which surface is authoritative for **approval**, (2) how often the repo copy must be refreshed from SharePoint, and (3) who owns that sync—otherwise agents will optimize against stale markdown.
+- **Proposals** — Vetted and shared with **non-technical stakeholders** using tools they can access without cloning a repo: e.g. **GitHub** (issues, discussions, wiki, rendered docs), **SharePoint** (libraries, pages, review flows), and/or **Miro** (workshop boards, option diagrams, architecture sketches). Keep under `<DOCS_ROOT>/proposals/` in Git **pointer files** (or a small index) so every agent and engineer resolves the same canonical link, status, and owner. The pointer is the crosswalk between “where humans discuss” and “where code lives.” When using Miro, follow the **`miro-mcp`** skill; declare default board URLs and pointer conventions in **`project.md`** or proposal index files—not by duplicating long policy in `AGENTS.md`. A minimal `AGENTS.md` may use **one line** to point at those files.
+- **Project and architecture** — **Authoritative** packages for governance and stakeholders often live in **SharePoint** as Word, PowerPoint, HTML, or PDF. Maintain **`project.md`** and markdown under **`architecture/`** in the repo as the **agent-reference** layer: structured, diffable, and easy to load into agent context. Record (1) which surface is authoritative for **approval**, (2) how often the repo copy must be refreshed from SharePoint, and (3) who owns that sync in **`project.md`** (or a short governance doc under `<DOCS_ROOT>/`); keep **`AGENTS.md`** to a **pointer** if you use the minimal template.
 
-External systems for execution-only records remain allowed when `AGENTS.md` declares policy and stable lookup paths for agents.
+External systems for execution-only records remain allowed when policy and stable lookup paths are declared in **standards**, **`project.md`**, or **`AGENTS.md` as a single-line reference**—not by pasting full runbooks into `AGENTS.md`.
 
 ## Canonical copy
 
