@@ -1,0 +1,12 @@
+# This hook set uses the standard pre-commit schema. Repos that use `prek` can point it at the same file.
+# https://pre-commit.com/
+repos:
+  - repo: local
+    hooks:
+      - id: invisible-unicode-lint
+        name: invisible unicode / smuggling guard (deterministic)
+        entry: python3 tools/invisible_unicode_lint/lint_invisible_unicode.py
+        language: system
+        pass_filenames: true
+        # Keep aligned with tools/invisible_unicode_lint/patterns.default.json "extensions".
+        files: '(?i)\.(md|mdx|pyw|pyi|py|tsx|ts|mts|cts|jsx|js|mjs|cjs|json|yaml|yml|toml|txt|csv|skill|canvas)$'
