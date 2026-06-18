@@ -2,34 +2,35 @@
 
 This document is the **methodology entry point** for the **Agentic Software Delivery Methodology** in this repository (`agentic-framework` on GitHub). Detailed sections live under [`docs/methodology/`](docs/methodology/).
 
-## Agent-native, human-governed
+## Engineering-led delivery with agent acceleration
 
-This methodology is built for teams where **software delivery work is agent-executed by default**: agents implement against approved specifications, run tests and quality gates, iterate on failures, author and update pull requests, assemble verification evidence, and run **automated preparatory review** (`pr-review`, `qa-testing`, related skills) before a change is ready for human decision.
+This methodology is for teams where **talented engineers and architects stay in charge of how systems are built**—**architecture** and **specifications** set shape and behavior, **curated standards** and **skills** provide **guardrails** and repeatable practice, and **deterministic gates** keep quality objective. **Agents** then take on much of the **mechanical** work: implementation against approved specs, tests and quality gates, iteration on failures, PR packaging, evidence assembly, and **preparatory review** (`pr-review`, `qa-testing`, related skills) **within those contracts**. That is **not** “vibe coding”; it is **disciplined execution** with tooling.
 
-**Humans remain load-bearing** as governors, not as the default implementers:
+**Engineers and accountable owners** remain responsible for:
 
 - **Product and scope** — intent, prioritization, and what “done” means for the customer or business.
+- **Architecture and cross-cutting design** — boundaries, interfaces, non-functional requirements, and evolution of the system shape.
 - **Specifications and features** — authoring, refining, and **approving** contracts agents execute against.
 - **Standards** — defining, evolving, and granting **exceptions** to engineering rules agents must follow.
 - **Risk and sign-off** — merge approval, production promotion, and selective deep review when policy requires it.
 
-Without capable agents and AI tooling, you would **re-engineer the process** (roles, WIP limits, review steps) rather than simply “turn off assist.” That is intentional: the methodology treats agents as **primary executors** of the delivery chain, with humans steering **what** and **whether**, not typing every line.
+Without capable agents and AI tooling, you would **rebalance throughput and roles**; without strong **specs, standards, and architecture discipline**, speed would outrun safety. This methodology assumes **both**.
 
 ## Scope
 
-The same document model applies to **software products, global web experiences, microservices, data platforms, and internal enterprise systems**—anywhere you want repeatable, reviewable delivery with agent execution at the center.
+The same document model applies to **software products, global web experiences, microservices, data platforms, and internal enterprise systems**—anywhere you want **repeatable, reviewable** delivery with **clear engineering ownership** and **agent acceleration** inside that guardrail.
 
 ## Executive overview
 
-Agents can implement and verify quickly. The hard part is ensuring the organization builds the **right** thing, that changes stay **reviewable**, that **evidence** is trustworthy, and that **knowledge** survives merge—while **defaulting execution to agents**.
+Agents can implement and verify quickly. The hard part is keeping **architecture coherent**, **specifications trustworthy**, **standards real**, and **evidence** credible—so **engineering judgment** survives merge, not just diffs.
 
-This methodology provides a path from intent to **human-approved** merge:
+This methodology provides a path from intent to **reviewer-approved** merge:
 
-- Durable docs capture product context, architecture, decisions, features, and **standards agents enforce**.
+- Durable docs capture product context, **architecture**, decisions, features, and **standards agents enforce**.
 - **Deliverable specifications** are the execution contracts for bounded agent work.
 - **Deterministic gates** (linters, types, CI, conformance) constrain probabilistic work.
-- **Agent skills** encode repeatable implementation, verification, PR packaging, and self-review steps.
-- **Humans** approve specifications, own standards, and **merge** when governance criteria are met.
+- **Agent skills** encode repeatable implementation, verification, PR packaging, and preparatory review steps.
+- **Engineers and owners** approve specifications, own standards and architecture tradeoffs, and **merge** when quality and risk criteria are met.
 
 ## Progression
 
@@ -43,8 +44,8 @@ project.md
   -> standards conformance maintenance
   -> code generation (agents)
   -> testing and validation (agents)
-  -> PR packaging and automated review (agents)
-  -> human governance and merge
+  -> PR packaging and preparatory review (agents)
+  -> merge review and approval (engineers)
   -> durable docs updated
 ```
 
@@ -63,7 +64,7 @@ Not every change needs every step. Small fixes may start at a specification. Unc
 | [Code generation](docs/methodology/code-generation.md) | Agent implementation and worktrees. |
 | [Testing and validation](docs/methodology/testing-and-validation.md) | Evidence and QA loops. |
 | [PR creation](docs/methodology/pr-creation.md) | Draft-first PRs and stacks. |
-| [Self-review](docs/methodology/self-review.md) | Agent-side review before human governance. |
+| [Preparatory review](docs/methodology/self-review.md) | Automated tightening on draft PRs before human merge review. |
 | [Human review and merge](docs/human-in-loop-pr-review-strategy.md) | Human tiers, approval, merge. |
 
 ## Core document model
@@ -98,10 +99,10 @@ Declare the docs root in `AGENTS.md`, commonly `docs/` or `.agentic/`. If using 
 3. Deterministic tools enforce every rule they can express reliably.
 4. Conformance keeps existing code aligned through small, agent-prepared PRs.
 5. Acceptance criteria and evidence are required for convergence.
-6. **Agents execute** inside approved contracts; **humans govern** scope, standards, ambiguity, and merge.
+6. **Agents execute** inside approved contracts; **engineering owners** own scope, standards interpretation, architecture fit, ambiguity resolution, and merge approval.
 7. Active implementation uses **isolated worktrees**.
 8. **Draft PRs** are the default packaging surface for agent work.
-9. **Automated agent review** runs before humans are asked for merge approval.
+9. **Preparatory automated review** runs before reviewers are asked for merge approval.
 10. Durable docs update when shipped work changes product, architecture, or standards.
 
 ## Skills
@@ -116,7 +117,7 @@ Shared skills under [`.agents/skills/`](.agents/skills/) encode agent workflows:
 | Deliverable specifications | `spec-builder` |
 | Implementation verification | `qa-testing` |
 | PR packaging | `pr-builder` |
-| Automated self-review | `pr-review` |
+| Preparatory review (automated) | `pr-review` |
 | Stacked PR workflow | `gh-stack` |
 | Worktree setup | `worktree` |
 | Standard creation | `standard-builder` |
@@ -128,13 +129,13 @@ Utilities such as `jira-api`, `miro-mcp`, `psql`, and `sqlcmd` apply when the re
 
 ## Authority gates
 
-**Agents** may draft docs, implement, run tests and linters, prepare PRs, and perform **preparatory review** when the governing specification and repo policy allow.
+**Agents** may draft docs, implement, run tests and linters, prepare PRs, and perform **preparatory review** when the **governing specification**, **architecture constraints**, and **repo policy** allow.
 
-**Humans** retain:
+**Engineers and accountable humans** retain:
 
 - approval of proposals, features, architecture, and specifications  
 - standards ownership and exceptions  
-- resolution of ambiguity and subjective product judgment  
+- resolution of ambiguity, engineering tradeoffs, and subjective product judgment  
 - **merge and release approval** (and mandatory human review when declared in policy)
 
 ## Storage modes

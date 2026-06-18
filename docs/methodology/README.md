@@ -1,6 +1,6 @@
 # Methodology sections
 
-This directory contains the focused sections behind the [Agentic Software Delivery Methodology overview](../../methodology.md). Execution steps in these docs assume **agent-native delivery** (agents implement, test, package PRs, and run preparatory review by default) with **human governance** of intent, standards, and merge approval unless your repo’s `AGENTS.md` documents a narrower or wider split.
+This directory contains the focused sections behind the [Agentic Software Delivery Methodology overview](../../methodology.md). Execution steps assume **engineering-led shaping** (architecture, specifications, curated standards) and **agent-accelerated** implementation, testing, PR packaging, and preparatory review—under **skilled human oversight** and merge approval unless your repo’s `AGENTS.md` documents a narrower or wider split.
 
 Read in workflow order:
 
@@ -35,7 +35,7 @@ Each section includes a `Relevant Skills` table that explains which skills apply
 | Code generation | `worktree`, `conformance`, `psql`, `sqlcmd` |
 | Testing and validation | `qa-testing`, `pr-review`, `conformance`, `psql`, `sqlcmd` |
 | PR creation | `pr-builder`, `gh-stack`, `qa-testing` |
-| Automated self-review | `pr-review`, `qa-testing`, `pr-builder`, `conformance` |
+| Preparatory review | `pr-review`, `qa-testing`, `pr-builder`, `conformance` |
 | Human review and merge | `pr-review`, `gh-stack`, `doc-check` |
 
 `miro-mcp` applies when **Miro MCP** is enabled and boards support proposals or architecture visuals; it is optional for repos that do not use Miro.

@@ -1,10 +1,12 @@
 # Agentic Software Delivery
 
-**Agentic Software Delivery Methodology** — agent-native, human-governed delivery for software products, global web experiences, microservices, data-backed services, platforms, and internal enterprise applications.
+**Agentic Software Delivery Methodology** — **engineering-led** delivery for software products, global web experiences, microservices, data-backed services, platforms, and internal enterprise applications. **Architecture**, **approved specifications**, and **curated standards** define *how* systems are shaped; **agents** accelerate bounded implementation and verification under **skilled engineer oversight**—not improvised “vibe coding.”
 
 ## How this model is different
 
-In this methodology, **agents are not an optional assist layer**. The normal delivery path assumes **agents execute the workstream**: implementation, running tests and quality gates, iterating on failures, authoring and refining pull requests, assembling verification evidence, and running **automated agent-side review** before a change is presented for human decision. **Humans are essential** as governors: they steer **specifications and features**, own and evolve **engineering standards**, resolve ambiguity and policy exceptions, accept product risk, and exercise **final approval to merge** (and selective deeper review when policy requires it). If you removed agents and AI from the loop, this process would not run as designed—you would need to redesign roles, artifacts, and gates.
+In this methodology, **agents are a first-class execution engine**, not a side chat. The normal path assumes **agents run much of the mechanical workstream**: implementation, tests and quality gates, iteration on failures, PR packaging, evidence assembly, and **preparatory review**—all **inside contracts** set by engineers and product leadership. **Talented engineers stay central**: they own and refine **architecture**, **specifications**, and **standards**; they judge tradeoffs and edge cases; they decide when agent output is acceptable; they exercise **merge and release approval** (and deeper review when risk requires it). **Curated standards** and **skills** are deliberate **guardrails** and repeatable playbooks, not optional hints.
+
+If you removed agents from the loop, you would **rebalance roles and throughput**; if you removed **specs, standards, and architecture discipline**, you would get speed without safety—this methodology assumes **both** professional rigor **and** agent acceleration.
 
 This repository holds the **canonical methodology**, the **standards library**, and **agent skills** under `.agents/skills/`. Downstream repos vendor or sync these assets; upstream intent stays here.
 
@@ -12,12 +14,13 @@ This repository holds the **canonical methodology**, the **standards library**, 
 
 ## Executive overview
 
-The hard problem is not typing code faster—it is building the **right** thing, keeping changes **reviewable**, making **evidence** credible, and preserving **knowledge** after merge while **agents do the mechanical delivery work** by default.
+The hard problem is not typing code faster—it is building the **right** thing under a **coherent architecture**, keeping changes **reviewable**, making **evidence** credible, and preserving **knowledge** after merge—while **agents handle much of the mechanical work** inside approved specifications and standards.
 
 This methodology provides:
 
-- **Agent-executed delivery:** bounded implementation, test runs, PR packaging, and preparatory review are first-class agent responsibilities under approved contracts.
-- **Human governance:** product intent, feature direction, specifications, standards, merge approval, and escalations stay with people.
+- **Engineer-led shaping:** architecture, specifications, and standards define intent, structure, and quality bars before and during delivery.
+- **Agent-accelerated execution:** bounded implementation, test runs, PR packaging, and preparatory review run against those contracts.
+- **Human judgment where it matters:** tradeoffs, exceptions, risk acceptance, and merge/release approval stay with people—especially senior engineers and accountable owners.
 - **Clearer intent before execution:** `project.md`, proposals, architecture, feature requirements, and milestones preserve *why* before agents implement. *(See **Stakeholder-facing vs agent-reference docs** below for the SBD Customer Engagement pattern: proposals and formal project/architecture artifacts in GitHub or SharePoint, with Git-tracked markdown in the repo for agents.)*
 - **Executable contracts:** deliverable specifications scope agent work with acceptance criteria, tests, standards pointers, and halt conditions.
 - **Deterministic + probabilistic quality:** linters, CI, and conformance PRs reduce variance; agent review skills tighten feedback before humans look.
@@ -54,8 +57,8 @@ project.md
   -> standards conformance maintenance
   -> code generation (agents)
   -> testing and validation (agents)
-  -> PR packaging and automated review (agents)
-  -> human governance and merge
+  -> PR packaging and preparatory review (agents)
+  -> merge review and approval (engineers)
 ```
 
 Read [methodology.md](methodology.md) first, then [docs/methodology/README.md](docs/methodology/README.md) for the section you need.
@@ -111,7 +114,7 @@ docs/methodology/   focused methodology sections
 | Code generation | [docs/methodology/code-generation.md](docs/methodology/code-generation.md) |
 | Testing and validation | [docs/methodology/testing-and-validation.md](docs/methodology/testing-and-validation.md) |
 | PR creation | [docs/methodology/pr-creation.md](docs/methodology/pr-creation.md) |
-| Self-review | [docs/methodology/self-review.md](docs/methodology/self-review.md) |
+| Preparatory review | [docs/methodology/self-review.md](docs/methodology/self-review.md) |
 | Human review and merge | [docs/human-in-loop-pr-review-strategy.md](docs/human-in-loop-pr-review-strategy.md) |
 
 ## Standards library
@@ -151,7 +154,7 @@ Skills encode **how agents do the work**. Customize them per stack and tracker; 
 | Skill | Purpose |
 | ----- | ------- |
 | `qa-testing` | Agent-run verification against requirements, standards, tests, and evidence. |
-| `pr-review` | Agent-side PR or diff review before human governance. |
+| `pr-review` | Automated preparatory PR or diff review before merge review. |
 
 ### Delivery and infrastructure skills
 
@@ -217,7 +220,7 @@ Documented **Miro** as an optional stakeholder surface for proposals and archite
 
 Documented the **SBD Customer Engagement** pattern: proposals vetted on **GitHub** and/or **SharePoint**; Git-tracked **pointers** under `<DOCS_ROOT>/proposals/`; authoritative project/architecture in **SharePoint** (Office/PDF/HTML) with **`project.md`** and **`architecture/`** markdown in-repo as **agent-reference**, with explicit sync ownership in `AGENTS.md`.
 
-### 2026-06-18 — Agent-native, human-governed framing
+### 2026-06-18 — Engineering-led delivery with agent acceleration
 
 Documented that delivery execution (implement, test, PR, preparatory review) is **agent-default**; humans govern intent, standards, and merge. Rebranded to **Agentic Software Delivery Methodology** / **Agentic Engineering Framework**; aligned entry docs with SBD Customer Engagement adoption; removed third-party board integration from the maintained skill set; standardized on `methodology.md` and `AGENTIC_DOCS_ROOT` / `.agentic` path examples.
 
