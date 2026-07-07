@@ -108,8 +108,9 @@ docs/methodology/   focused methodology sections
 | Project orientation | [docs/methodology/project.md](docs/methodology/project.md) |
 | Architecture | [docs/methodology/architecture.md](docs/methodology/architecture.md) |
 | Proposals | [docs/methodology/proposals.md](docs/methodology/proposals.md) |
-| Features and milestones | [docs/methodology/features-and-milestones.md](docs/methodology/features-and-milestones.md) |
+| Features and project milestones | [docs/methodology/features-and-milestones.md](docs/methodology/features-and-milestones.md) |
 | Specifications | [docs/methodology/specifications.md](docs/methodology/specifications.md) |
+| Spec-driven development | [docs/methodology/spec-driven-development.md](docs/methodology/spec-driven-development.md) |
 | Deterministic quality and conformance | [docs/methodology/deterministic-quality.md](docs/methodology/deterministic-quality.md) |
 | Code generation | [docs/methodology/code-generation.md](docs/methodology/code-generation.md) |
 | Testing and validation | [docs/methodology/testing-and-validation.md](docs/methodology/testing-and-validation.md) |
@@ -146,6 +147,7 @@ Skills encode **how agents do the work**. Customize them per stack and tracker; 
 | `feature-doc-builder` | Long-lived feature requirements (historical skill name). |
 | `architecture-doc-builder` | Project- and feature-level architecture documents. |
 | `spec-builder` | Bounded deliverable specifications and execution guidance. |
+| `spec-driven` | Post-greenlight lifecycle: contract updates, change log, QA/PR feedback, signoff. |
 | `standard-builder` | Draft repo-specific standards from codebase inspection. |
 | `miro-mcp` | Miro boards via MCP: diagrams, board docs, tables; read context for proposals and architecture when MCP is enabled. |
 

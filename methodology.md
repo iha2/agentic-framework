@@ -40,6 +40,7 @@ project.md
   -> proposals/
   -> features/ and milestones
   -> specifications/
+  -> spec-driven implementation (post-greenlight)
   -> deterministic quality gates
   -> standards conformance maintenance
   -> code generation (agents)
@@ -58,8 +59,9 @@ Not every change needs every step. Small fixes may start at a specification. Unc
 | [Project document](docs/methodology/project.md) | `project.md` and top-level orientation. |
 | [Architecture](docs/methodology/architecture.md) | Technical shape and decisions. |
 | [Proposals](docs/methodology/proposals.md) | Durable decisions under uncertainty. |
-| [Features and milestones](docs/methodology/features-and-milestones.md) | Feature requirements and milestones. |
+| [Features and project milestones](docs/methodology/features-and-milestones.md) | Feature requirements, roadmap increments, and project milestones. |
 | [Specifications](docs/methodology/specifications.md) | Deliverable specs as agent contracts. |
+| [Spec-driven development](docs/methodology/spec-driven-development.md) | Post-greenlight lifecycle, contract updates, and signoff. |
 | [Deterministic quality gates](docs/methodology/deterministic-quality.md) | Linters, CI, conformance, agent-facing text checks (including invisible Unicode). |
 | [Code generation](docs/methodology/code-generation.md) | Agent implementation and worktrees. |
 | [Testing and validation](docs/methodology/testing-and-validation.md) | Evidence and QA loops. |
@@ -74,7 +76,7 @@ Project-first layout under `<DOCS_ROOT>/`:
 - `project.md` — purpose, users, capabilities, assumptions.
 - `architecture/` — technical shape and system decisions.
 - `proposals/` — decisions when the path is uncertain.
-- `features/` — long-lived capabilities and milestones.
+- `features/` — long-lived capabilities and feature roadmap increments.
 - `specifications/` — bounded deliverable contracts **agents execute**.
 - `execution/` — mutable run logs, QA, handoffs (when on disk).
 - `standards/` — **rules humans own and agents apply**.
@@ -115,6 +117,7 @@ Shared skills under [`.agents/skills/`](.agents/skills/) encode agent workflows:
 | Feature requirements | `feature-doc-builder` |
 | Architecture docs | `architecture-doc-builder` |
 | Deliverable specifications | `spec-builder` |
+| Post-greenlight implementation | `spec-driven` |
 | Implementation verification | `qa-testing` |
 | PR packaging | `pr-builder` |
 | Preparatory review (automated) | `pr-review` |

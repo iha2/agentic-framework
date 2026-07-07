@@ -1,13 +1,13 @@
 ---
 name: spec-builder
-description: Help a user create, draft, refine, or update a deliverable specification for a bounded feature, component, bug fix, refactor, or milestone slice; use when the user wants to write a new specification or improve an existing one, not implement the solution.
+description: Help a user create, draft, refine, or update the content of a deliverable specification for a bounded feature, component, bug fix, refactor, or milestone slice; use when the user wants to author the specification contract, acceptance criteria, test strategy, review shape, templates, or implementation prompt, not implement the solution. For post-greenlight implementation lifecycle, steering, QA/PR feedback, and change-log protocol, use spec-driven.
 ---
 
 # Spec Builder Skill
 
 Operational guidance for the agent. User-facing onboarding lives in `README.md`.
 
-## Operating model (revised 2026-05; M2 Reporting API onward)
+## Operating model (revised 2026-07; SBD framework)
 
 This skill produces **self-contained deliverable specification documents**. The stable mapping is:
 
@@ -23,17 +23,18 @@ single-lane stack of branches
 ```
 
 The deliverable specification is the complete contract for its deliverable — intent, decisions, scope,
-approved review shape, acceptance criteria, test plan, execution sequence, code skeletons, halt conditions,
+approved review shape, acceptance criteria, test strategy, execution sequence, code skeletons, halt conditions,
 definition of done, and the agent-implementation prompt all live in the specification itself.
-**There is no separate plan document.**
+**There is no separate execution document.**
 
 Progress tracking, OQ resolutions, deviations, QA findings, and manual evidence
 locations are recorded in a run log when the effort needs one. The run log is
-append-only execution history and follows the repo's declared
-policy: by default a locally ignored Markdown file under `<DOCS_ROOT>/execution/`,
-or a committed file, project board or external tracker note, external tracker entry, or combination when the
-repo defines that explicitly. Repos that do not use a project board or external tracker may rely exclusively on
-`<DOCS_ROOT>/execution/` for execution records. When the Owner uses a project board or external tracker, treat it
+append-only execution history and follows the repo's declared policy: local file under
+`<DOCS_ROOT>/execution/`, committed file, project board or external tracker note, external tracker entry, or
+combination when the repo defines that explicitly. Do not invent filenames or
+subdirectories under `execution/`; use the repo's declared operating model. Repos that
+do not use project board or external tracker may rely on `<DOCS_ROOT>/execution/` for execution records when
+that is declared. When the Owner uses project board or external tracker, treat it
 as the centralized execution-record service for run logs, handoff notes, QA findings,
 and related execution information that must be shared across worktrees, agents, and sessions.
 
@@ -43,7 +44,7 @@ specification. A stacked lane uses one shared run log when lower-branch
 decisions, QA findings, or deviations can affect upper branches.
 
 This is a deliberate departure from earlier convention. The earlier convention split
-specification intent from a separate execution plan; experience showed that split adds
+specification intent from a separate execution document; experience showed that split adds
 friction for walk-away execution and that the run log handles progress
 tracking more cleanly. The branch or stack PR is the reviewable artifact; the deliverable
 specifications are the executable contracts inside that artifact.
@@ -75,6 +76,12 @@ Before changing this skill's philosophy, read
 active repo also has local methodology docs, use them as project-specific context only;
 do not make them required dependencies for this skill.
 
+For the lifecycle after a specification is greenlit, use `spec-driven` when
+available. This skill defines the specification shape and helps create or refine the
+contract through greenlight; the SDD skill owns implementation loops, Owner steering,
+QA/review feedback, controlled spec updates, re-verification, PR readiness, and final
+sign-off.
+
 For stacked branch workflow details, prefer the separate `gh-stack` skill when available.
 If it is installed, read its `SKILL.md` and bundled references before drafting stacked
 workflow sections. If it is not installed, use the concise stacked-lane guidance bundled
@@ -93,7 +100,7 @@ template):
 3. **Invariants** — load-bearing constraints stated verbatim, restated in PR bodies.
 4. **Scope and review shape** — file list (path + new/modified + reason), strict scope
    constraint naming the allowed directory, explicit out-of-scope list, and the
-   human-approved decomposition/review plan: one PR, one milestone PR, sibling PRs,
+   human-approved decomposition/review shape: one PR, one milestone PR, sibling PRs,
    stacked PRs, or a large exception.
 5. **Decisions** — each with "why this over the alternative" rationale. 3-8 typical.
 6. **Agent implementation rules** — shared behavior for implementation: branch/PR
@@ -102,34 +109,39 @@ template):
    conditions.
 7. **Acceptance criteria** — numbered, testable, each citing the verifying test or
    command.
-8. **Test plan** — concrete, high-signal test names, what each asserts, reference data
-   sources named (existing fixtures, locked baselines, etc.). The test plan implements
+8. **Test Strategy** — concrete, high-signal test names, what each asserts, reference data
+   sources named (existing fixtures, locked baselines, etc.). The test strategy implements
    the ACs with the smallest meaningful set of tests; it must be defined before the
    execution sequence.
 9. **TDD entry point + Prescriptive Execution Sequence** — a first failing test, then
    phase-by-phase implementation order with code skeletons for non-test files. The
-   sequence is derived from the ACs and test plan.
+   sequence is derived from the ACs and test strategy.
 10. **Definition of Done** — binary checklist; unchecked boxes go to the user, not
     self-marked by the agent.
 11. **Open Questions** — must be resolved by the user before code is written; logged
     as resolutions in the run log.
 12. **Run Log Protocol** — pointer to the run log when used,
     including storage policy, append rules, sections, and session-start protocol.
-13. **Appendix — Agent Implementation Prompt** — paste-ready bootstrap for the
-    implementing agent session.
+13. **Agent Implementation Prompt** — paste-ready bootstrap for the implementing agent
+    session, including the lead/subagent coordination model and execution-tracking
+    system instructions.
+14. **Implementation And Review Change Log** — the final section. Initial specs may say
+    "No changes recorded." After greenlight, accepted steering, QA/UAT, PR review, or
+    implementation-discovered bug feedback updates affected spec sections in place and
+    records the audit entry here.
 
 The numbering is not load-bearing; the *presence* of each section is. If a section is
 genuinely N/A for a deliverable (rare), state so explicitly rather than omitting.
 
 ### What the run log contains
 
-One run log per delivery effort when the effort needs a mutable execution
-record. A single-specification branch may have one section. A milestone branch may
-contain multiple deliverables/specifications and uses sections per specification. A
-stacked lane uses sections per branch/specification when needed.
+One run log per delivery effort when the effort needs an append-only execution record
+that grows during implementation. A single-specification branch may have one section. A
+milestone branch may contain multiple deliverables and specifications and uses sections
+per specification. A stacked lane uses sections per branch/specification when needed.
 
 - **Standards verification** — agent confirms the specification's standards prescription matches
-  a fresh `docs/standards/index.yaml` lookup.
+  a fresh `<DOCS_ROOT>/standards/index.yaml` lookup.
 - **OQ Resolutions** — verbatim user answers, timestamped.
 - **Phase Completions** — commit SHAs, verifying-command outcomes.
 - **QA Findings & Rework** — QA pass/fail summaries, weak-test findings, specification-gap
@@ -149,7 +161,7 @@ phase.
 ## Role
 
 You produce a deliverable specification through interactive dialogue with the deliverable Owner. The specification is
-the complete contract; you do **not** also produce a separate plan document.
+the complete contract; you do **not** also produce a separate execution document.
 
 You do **not** implement product code in this skill.
 
@@ -162,16 +174,16 @@ For features and deliverables, decomposition and stacking are specification-time
 decisions. The specification must define the review shape before implementation starts:
 one PR, multiple deliverables in one milestone PR, sibling PRs, a bounded stacked review
 lane, or a large exception. If implementation later shows the approved shape is wrong,
-the implementor must stop and route the change back through specification revision with
-Owner sign-off rather than inventing a split or stack after coding has started.
+the implementor must stop and route the change through Owner sign-off, an in-place
+specification update, and the Implementation And Review Change Log rather than
+inventing a split or stack after coding has started.
 
 Use these topologies:
 
 - **Single-deliverable branch** — one deliverable, one specification, one branch/PR. Default for
   small and medium changes.
-- **Milestone branch** — multiple ordered deliverables/specifications in one worktree, one branch,
-  one shared run log, one PR. Use when the milestone is reviewed as one artifact. M2
-  Reporting API is the canonical example.
+- **Milestone branch** — multiple ordered deliverables and specifications in one worktree, one branch,
+  one shared run log, one PR. Use when the milestone is reviewed as one artifact.
 - **Sibling branches** — multiple independently reviewable branches/PRs for one
   milestone. Use when deliverables do not require a stack dependency.
 - **Stacked review lane** — multiple branches stacked inside **one lane worktree** using
@@ -206,11 +218,18 @@ branches, flag the concern once and continue with the stated topology if reaffir
 5. For stacked topology, read the `gh-stack` skill if available. If not available,
    proceed with this skill's bundled stacked summary and flag that command-level stack
    guidance may need Owner review.
-6. Read `docs/standards/index.yaml` from the active worktree when present and load only the
+6. Resolve `DOCS_ROOT` from `AGENTS.md`, the standards index, or another repo-local
+   orientation document. Do not assume that a directory literally named `docs/` is the
+   docs root; some repos use a non-`docs/` root declared in `AGENTS.md`.
+7. Read `<DOCS_ROOT>/standards/index.yaml` from the active worktree when present and load only the
    standards relevant to this deliverable's file set.
-7. Inspect existing specifications in `<DOCS_ROOT>/specifications/`, a project board or external tracker, or the
-   repo's declared external tracking location to calibrate level of detail.
-8. Begin the dialogue. One bounded deliverable/specification at a time, while keeping the larger
+8. Resolve the repo's documentation operating model from `AGENTS.md`: where active
+   specifications under `<DOCS_ROOT>/specifications/` are tracked, ignored, mirrored, or
+   promoted; where durable project docs live; and whether a project board, Jira,
+   committed Markdown, or another declared surface is authoritative for final docs.
+9. Inspect existing specifications in `<DOCS_ROOT>/specifications/` or the mirrored
+   external specification surface to calibrate level of detail.
+10. Begin the dialogue. One bounded deliverable/specification at a time, while keeping the larger
    milestone topology visible when multiple specifications share one branch or run log.
 
 ## Interaction model
@@ -236,8 +255,8 @@ asking for confirmation when the codebase or methodology makes one likely.
 Before presenting a near-final specification, the spec-builder agent must be able to state:
 
 - **Deliverable boundary** — what single deliverable this specification owns.
-- **Feature / milestone context** — which feature and milestone this deliverable belongs
-  to, or N/A.
+- **Feature / project milestone context** — which feature, feature roadmap increment,
+  and project milestone this deliverable belongs to, or N/A.
 - **Delivery topology** — single-deliverable branch, milestone branch, sibling branch,
   or stacked review lane.
 - **Review artifact** — one PR for this specification, one milestone PR with multiple specifications,
@@ -251,6 +270,15 @@ Before presenting a near-final specification, the spec-builder agent must be abl
   PR review.
 - **Run-log shape** — run-log path/location and whether it is
   single-specification, shared milestone, or stacked-lane.
+- **Documentation operating model** — whether `<DOCS_ROOT>/specifications/` is tracked,
+  ignored, mirrored, or promoted; where RUN_LOG files, durable feature/architecture
+  docs, roadmap, and project milestones live.
+- **Execution tracking system** — none/local run log only, project board or external tracker, Jira, or another
+  tracker; include authoritative IDs/URLs, required status updates, and companion skills
+  the implementation prompt must load.
+- **Implementation coordination model** — lead implementation agent only, or lead
+  implementation agent coordinating subagents by phase/task; include what may be
+  delegated, what must remain lead-owned, and how ordered work prevents file conflicts.
 - **Scope and non-goals** — paths likely in scope, paths explicitly out of scope, and
   service boundary.
 - **Public/user-visible contracts** — APIs, CLI behavior, schemas, filenames,
@@ -258,7 +286,7 @@ Before presenting a near-final specification, the spec-builder agent must be abl
 - **Acceptance criteria** — testable outcomes, each with verifying evidence.
 - **Reference/test data** — existing fixture path, golden source, synthetic fixture
   plan, or Owner-provided evidence.
-- **Standards** — applicable `docs/standards/` entries based on expected file paths and
+- **Standards** — applicable `<DOCS_ROOT>/standards/` entries based on expected file paths and
   activity.
 - **Open questions** — unresolved items that must block implementation until answered.
 
@@ -279,8 +307,23 @@ Use these as prompts, not a rigid questionnaire:
   the alternatives?"
 - "Is this one deliverable/specification, or are there multiple deliverables inside the
   milestone?"
+- "What documentation operating model should this repo use for this deliverable:
+  GitHub-only committed specs, project board or external tracker execution records plus repo docs, Jira-backed tracking, or a hybrid?"
+- "Should `<DOCS_ROOT>/specifications/` be tracked in Git, ignored locally, mirrored to
+  a project board, Jira, or another declared tracker, or promoted to another durable surface after merge when declared?"
 - "What must be true for you to call this deliverable done?"
 - "What test, fixture, legacy output, or manual evidence proves each outcome?"
+- "What execution tracking system should implementation use: local run log only, a project
+  board or external tracker, Jira, or another tracker?"
+- "Should the implementation prompt assume one lead agent only, or a lead implementation
+  agent coordinating subagents by phase or task?"
+- "If subagents are allowed, what may they own — tests, service layer, frontend, QA
+  verification, docs, or another slice — and what must the lead agent keep final
+  responsibility for?"
+- "Are there file areas or phases that must be serialized because multiple agents could
+  otherwise edit the same files?"
+- "Should QA run as separate fresh-context agents for functionality, performance, code
+  hygiene, or another quality dimension?"
 - "Which files or service boundary should be strictly out of scope?"
 - "Should the implementing agent be allowed to adapt internals if ACs and public
   contracts stay fixed?"
@@ -291,37 +334,40 @@ Use these as prompts, not a rigid questionnaire:
 - **The integration branch worktree** (e.g. `dev/`, `main/`) **is read-only** except for sync. Never write
   specifications or implementation files into it; always work from the active feature worktree or the repo's approved
   documentation surface.
-- **Specification location**: when committed in Git, deliverable specifications live in
-  `<DOCS_ROOT>/specifications/{slug}.md` unless the repo declares a more specific naming policy. Because the directory
-  already names the artifact type, filenames do not need a `SPEC` suffix.
+- **Specification location**: follow the repo's declared documentation operating model.
+  Deliverable specifications created by this skill live under
+  `<DOCS_ROOT>/specifications/{slug}.md` so implementation agents can execute the
+  current spec from the local worktree, unless the repo declares a more specific naming
+  policy. The operating model determines whether that directory is tracked, ignored,
+  mirrored, or promoted elsewhere.
 - **External specification storage**: when the repo policy says specifications are not committed, store or link them
-  in a project board or external tracker, or the declared external tracker, and include enough stable identifier context for agents and reviewers
-  to find the artifact.
+  in a project board, Jira, or the declared external surface and
+  include enough stable identifier context for agents and reviewers to find the artifact.
 - **Run log**: use the storage surface declared by the repo. When stored on disk, default
-  to `<DOCS_ROOT>/execution/{slug}-run-log.md` or
-  `<DOCS_ROOT>/execution/{milestone-or-lane-slug}-run-log.md`, usually excluded
-  from Git by repo-local or bare-repo exclude rules. External board or tracker notes or tracker
-  records are also valid when declared. If the repo does not use a project board or external tracker, the execution
-  directory may be the exclusive record surface. If the repo does use a project board or external tracker, use it as
+  to the repo-declared filename under `<DOCS_ROOT>/execution/`, usually excluded from
+  Git by repo-local or bare-repo exclude rules. External project board or external tracker notes or tracker
+  records are also valid when declared. If the repo does not use a project board or external tracker, `<DOCS_ROOT>/execution/`
+  may be the exclusive record surface when declared. If the repo does use a project board or external tracker, use it as
   the shared execution-record surface when multiple agents need the same run log or handoff
   context across worktrees and sessions. Milestone branches use sections per specification.
 - **Stacked review lane**: one worktree contains the stacked branches managed with `gh-stack`. Do not create stacked
-  worktrees. A worktree normally has one deliverable, but a stacked lane may contain multiple deliverables/specifications
+  worktrees. A worktree normally has one deliverable, but a stacked lane may contain multiple deliverables and specifications
   when those deliverables are intentionally stacked for review.
-- **Standards** live in `docs/standards/`, gated by `index.yaml`. Specifications prescribe the
+- **Standards** live in `<DOCS_ROOT>/standards/`, gated by `index.yaml`. Specifications prescribe the
   applicable standards; the implementing agent verifies via its own index lookup.
 - **Branch scope discipline**: the specification is scoped to the diff between its branch and
   the integration branch (`{{ integration-branch }}`, confirmed during intake).
 - **Approved review shape discipline**: specifications define decomposition and stacking
   before implementation. A PR must show conformance to the approved review shape; a
-  needed topology change is a specification revision, not a late implementation choice.
+  needed topology change requires Owner sign-off, an in-place specification update, and
+  a change-log entry; it is not a late implementation choice.
 - **No direct integration merges**: agents may commit/push feature branches, but all
   changes reach the integration branch only through human PR review. Do not write specification
   prompts that tell agents to merge to the integration branch directly.
 - **Manual evidence storage**:
   - Follow the repo's declared artifact policy for baselines, OpenAPI inspection outputs, screenshots, captured
     comparisons, smoke outputs, and performance artifacts.
-  - Prefer durable repo-local ignored paths, committed evidence paths, or attachments and notes on the project board or external tracker over ephemeral
+  - Prefer durable repo-local ignored paths, committed evidence paths, or project board or external tracker attachments/notes over ephemeral
     locations.
   - **Never rely on `/tmp/`** for evidence that must survive reboot.
 
@@ -351,19 +397,19 @@ Tests need concrete reference data. The specification must name where it comes f
 - **Locked fixtures already present in the repo** → cite the path; reuse don't
   re-create when prior locked fixtures exist for the area you're touching.
 
-### Test plan value bar — fewer tests, stronger signals
+### Test strategy value bar — fewer tests, stronger signals
 
 The specification should prevent test sprawl. Do not reward agents for adding many
 shallow tests that mostly exercise mocks, implementation details, or duplicated
-branches. The test plan is a review contract, not a quota.
+branches. The test strategy is a review contract, not a quota.
 
 Tests are part of the deliverable contract. The specification defines the required test
 intent, reference data, realistic edge cases, and verifying commands before
 implementation starts. Implementers may adapt exact test names or local helper mechanics
 to match the repo, but they must not weaken, delete, rewrite, or move the specified test
 coverage just to make implementation pass. Any material change to test intent, covered
-edge cases, reference data, or verification layer requires Owner sign-off and a
-specification revision.
+edge cases, reference data, or verification layer requires Owner sign-off, an in-place
+specification update, and a change-log entry.
 
 Every proposed automated test must answer:
 
@@ -407,15 +453,15 @@ Avoid specifying:
 - broad "coverage padding" tests added only to make a PR look safer
 
 When a test is intentionally omitted because nearby coverage is already sufficient,
-say so briefly in the Test Plan. That gives implementers permission to keep the PR
+say so briefly in the Test Strategy. That gives implementers permission to keep the PR
 clean and gives reviewers a concrete rationale.
 
 If QA later finds that the specified tests are low-signal, missing realistic edge cases,
 or testing the wrong boundary, that is a specification quality issue. QA should route the
-finding back through the owner or governing workflow for test-plan clarification or specification
-revision before the implementer proceeds.
+finding back through the owner or governing workflow for test-strategy clarification,
+in-place specification update, and change-log entry before the implementer proceeds.
 
-### Acceptance criteria and test plan come before execution
+### Acceptance criteria and test strategy come before execution
 
 The specification is test/AC-driven. Define what proves the deliverable first, then
 define how the agent should implement it.
@@ -456,13 +502,14 @@ Label or phrase content so implementers can distinguish:
 
 Agents may adapt guidance when verified local evidence supports it, but they must keep
 hard constraints intact, keep the diff inside scope, and log meaningful deviations.
-Contract-changing deviations require Owner sign-off and specification revision.
+Contract-changing deviations require Owner sign-off, an in-place specification update,
+and a change-log entry.
 
 ### Agent implementation rules section
 
 Every specification includes a single common **Agent Implementation Rules** section so operational
-behavior does not get scattered across the document. The appendix prompt should point to
-that section instead of re-copying every rule.
+behavior does not get scattered across the document. The implementation prompt should
+point to that section instead of re-copying every rule.
 
 It includes:
 
@@ -475,6 +522,14 @@ It includes:
 - command working-directory convention, e.g. `cd backend` then
   `scripts/withenv ../.env ...`
 - run-log maintenance requirements
+- execution tracking requirements and any companion utility skills to load, such as
+  `jira-api` or repo-configured companion board/tracker integration for project board or external tracker repos or `jira-api` for Jira-backed repos
+- lead/subagent coordination model, including task delegation boundaries and lead-owned
+  integration/evidence responsibilities
+- single-worktree serialization rules: order overlapping phases/tasks so agents do not
+  overwrite one another, and make the lead responsible for final integration
+- fresh-context QA/verifier guidance when the specification calls for independent
+  functionality, performance, code-hygiene, security, accessibility, or standards checks
 - bounded autonomy rules: hard constraints vs adaptive guidance
 - halt conditions
 
@@ -490,7 +545,7 @@ halt conditions:
 4. `git diff {{ integration-branch }} --stat` shows a file outside scope.
 5. Implementation surfaces a perceived need to modify outside the strict scope directory.
 6. A standard not prescribed in the specification matches the file list via the
-   docs/standards/index.yaml lookup.
+   `<DOCS_ROOT>/standards/index.yaml` lookup.
 7. Reference data unavailable (e.g. local test DB lacks the named reference data/period combo).
 
 Tailor halt conditions to the specification. The list above is the minimum.
@@ -507,17 +562,32 @@ Unchecked boxes go to the user, not self-marked. Includes:
 - `just format` exits 0.
 - `git diff {{ integration-branch }} --stat` matches §3 exactly.
 - All ACs verified (cite the verifying test or command per AC).
-- Run-log section for this specification up to date through final phase when a run log is used.
+- Run-log/tracker record for this specification up to date through final phase,
+  including subagent outcomes when subagents were used.
 - Verifier sub-agent dispatched and returned all-pass.
-- PR draft body links to the specification or to a specification record on the project board or external tracker and lists each AC's verification.
+- PR draft body links to the specification or project board or external tracker specification record and lists each AC's verification.
 
-### Agent Implementation Prompt (appendix)
+### Agent Implementation Prompt
 
-Every specification ends with a paste-ready prompt for the implementing agent session. The prompt:
+Every specification includes a paste-ready prompt for the implementing agent session.
+This section appears immediately before the final Implementation And Review Change Log,
+so the change log remains the final audit trail. The prompt:
 
 - Names the worktree path and the specification path or external specification record.
 - Names the run-log path/location when used.
+- Names the execution tracking system and required status/update behavior.
+- Names companion skills to load for the selected tracking system, such as
+  `jira-api` or repo-configured companion board/tracker integration when the repo uses project board or external tracker, `jira-api` when the repo uses Jira, or
+  repo-specific tracker guidance when another system is declared.
 - Names prior specifications the agent must read (if this specification depends on others).
+- States whether implementation is lead-only or lead-with-subagents.
+- If subagents are allowed, tells the lead implementation agent how to divide phases or
+  tasks, preserve file ownership and scope, collect evidence, reconcile outputs, and
+  remain responsible for the final integrated result.
+- Tells the lead implementation agent to serialize overlapping file work in the single
+  worktree, so delegated tasks do not overwrite each other.
+- Names any fresh-context QA agents or verifier agents that should evaluate different
+  quality dimensions independently.
 - Restates non-negotiable rules (strict scope, halt conditions, standards verification,
   TDD discipline, run-log maintenance).
 - Orders the work (read the specification; resolve OQs; execute phases; dispatch verifier).
@@ -526,6 +596,26 @@ Every specification ends with a paste-ready prompt for the implementing agent se
   PR draft).
 
 The prompt is paste-ready — the Owner can copy it into a fresh agent session and the session bootstraps cleanly.
+
+Tracking-system guidance must be conditional, not tied to one vendor by default. If the repo uses a project board or external tracker, instruct the implementation session to follow the repo-declared workflow and update implementation progress, subagent task progress, notes, locks, and status through the configured integration. If the repo uses
+Jira, instruct the implementation session to load `jira-api` and use repo-provided or
+Owner-provided Jira issue context; do not imply live Jira access unless the repo has
+a real integration. If the repo uses another tracker, name the tracker and point to the
+repo-declared workflow. If no tracker is used, rely on the run log and PR evidence.
+
+### Implementation And Review Change Log
+
+Every specification ends with an Implementation And Review Change Log. Initial drafts
+may say "No changes recorded." After greenlight, accepted Owner steering, QA/UAT
+findings, PR review feedback, or implementation-discovered bugs that change scope, ACs,
+test strategy, execution sequence, public contracts, validation, branch topology, or
+user-facing behavior update the relevant specification sections in place.
+
+The change log records the audit trail; it is not a second competing contract. Each
+entry should include timestamp, source, changed section links or section numbers, short
+rationale, and verification impact. If a future agent needs to understand current
+requirements, the body of the specification should read as the current contract. The
+change log explains how it got there.
 
 ### Sequence diagram (recommended)
 
@@ -545,12 +635,12 @@ description. If a decision reads like a description, it's incomplete.
 
 ### What stays OUT of the specification
 
-- Status fields (Draft/Approved). Workflow state lives in your kanban tool when you use a project board or external tracker
+- Status fields (Draft/Approved). Workflow state lives in your kanban tool (project board or external tracker)
   or your head — not in the document.
 - Verbatim standards or container-conventions text → cite, don't restate.
 - Speculative future work ("we might want to...") → in or out, no middle.
-- Mutable execution state other than the run log, which is a sibling artifact or external record rather than part of
-  the specification.
+- Execution state, which belongs in the run log or external record rather than the
+  specification.
 
 ## Specification quality bar
 
@@ -559,22 +649,30 @@ A deliverable specification is complete when:
 - Bounded **scope** + explicit **non-goals** + strict scope constraint naming the
   allowed directory.
 - Numbered, TDD-grade **ACs** with reference-data sources named.
-- **Test plan** is high-signal and proportional: every test maps to an AC, invariant,
+- **Test Strategy** is high-signal and proportional: every test maps to an AC, invariant,
   public contract, realistic edge case, regression, or named risk, and duplicate/low-value
   tests are explicitly avoided.
 - **Decisions** with "why this over the alternative" rationale.
 - **Prescriptive Execution Sequence** with phase order and code skeletons.
-- **ACs before execution** — acceptance criteria and test plan are defined before the
+- **ACs before execution** — acceptance criteria and test strategy are defined before the
   execution sequence.
 - **Review shape before execution** — the specification records the approved
-  decomposition/review plan and rationale before implementation starts.
+  decomposition/review shape and rationale before implementation starts.
 - **Agent Implementation Rules** centralized in one section and referenced by the
-  appendix prompt.
+  implementation prompt.
+- **Execution tracking** captured in the implementation rules and prompt, including
+  local run log, project board or external tracker, Jira, or another tracker plus companion skill guidance.
+- **Lead/subagent coordination model** captured in the implementation rules and prompt,
+  including delegation boundaries when subagents are allowed.
+- **Single-worktree conflict discipline** captured in the implementation rules and
+  prompt, including ordered work for overlapping file ownership.
+- **Fresh-context QA/verifier guidance** captured when independent quality checks are
+  expected.
 - **Halt Conditions** explicit and non-negotiable.
 - **Definition of Done** binary checklist.
 - **Agent Implementation Prompt** paste-ready, includes verifier dispatch.
 - **Required reading** cited by section number, not whole documents.
-- **Applicable standards** from `docs/standards/` cited (prescribed + verify pattern).
+- **Applicable standards** from `<DOCS_ROOT>/standards/` cited (prescribed + verify pattern).
 - For stacked: **integration seam** (locked public symbols, types, contracts) concrete
   enough that an upper branch can build on a lower branch through the branch stack.
 - **Ownership** identified (per-specification deliverable for regular/milestone; per-branch for
@@ -645,20 +743,3 @@ For stacked specifications, self-check before showing a draft:
 - **Decisions** — each answers "why this over the alternative."
 
 If any fall short, refine before presenting.
-
-## Revision
-
-If implementation surfaces a problem requiring specification change:
-
-1. Stop. Don't bury contract changes in commit messages or run-log entries alone.
-2. Identify affected ACs and decisions.
-3. Get Owner sign-off before editing the specification.
-4. Mark superseded ACs as `Removed` or `Superseded by ACx` — don't silently delete.
-   Add a `Revision history` entry to the specification: date, what changed, why, sign-off.
-5. Log the revision in the run log under "Deviations" with a pointer to the specification's
-   updated section.
-6. Re-verify any phases already complete that touch the changed contract.
-7. For stacked: upper branches rebase upstack from the new lower-branch HEAD and back-propagate.
-
-The procedure is heavyweight on purpose. Frequent revisions = under-specified deliverable specification,
-which is a spec-builder failure.
