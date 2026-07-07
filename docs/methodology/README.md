@@ -32,7 +32,7 @@ Each section includes a `Relevant Skills` table that explains which skills apply
 | Proposals and decisions | `proposal-builder`, `feature-doc-builder`, `architecture-doc-builder`, `miro-mcp` |
 | Features and milestones | `feature-doc-builder`, `architecture-doc-builder`, `spec-builder` |
 | Deliverable specifications | `spec-builder`, `spec-driven`, `jira-api` |
-| Post-greenlight implementation | `spec-driven`, `qa-testing`, `pr-builder`, `pr-review` |
+| Post-greenlight implementation | `spec-driven`, `handoff`, `qa-testing`, `pr-builder`, `pr-review` |
 | Deterministic quality gates and standards conformance | `standard-builder`, `conformance`, `doc-check`, `invisible-unicode-lint`, `qa-testing` |
 | Code generation | `worktree`, `conformance`, `psql`, `sqlcmd` |
 | Testing and validation | `qa-testing`, `pr-review`, `conformance`, `psql`, `sqlcmd` |

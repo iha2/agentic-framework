@@ -112,6 +112,7 @@ project milestone update into the declared durable docs surface.
 | `architecture-doc-builder` | Adds design depth for features that span multiple deliverables, services, workflows, or data boundaries. |
 | `spec-builder` | Slices approved deliverables from feature roadmap or project milestone context into executable specifications with acceptance criteria and test intent. |
 | `jira-api` | Provides Jira-backed context for issue scope, deliverable assignment, and acceptance criteria when the repo uses Jira. |
+| `confluence` | Drafts or promotes durable feature, roadmap, project milestone, and completed-spec pages when Confluence is the repo-declared surface. |
 | Companion board/tracker integration (repo-configured) | Synchronizes project milestones, feature-linked deliverables, deliverable assignment, and execution state when the repo uses a project board or external tracker. |
 
 ## Related Sections

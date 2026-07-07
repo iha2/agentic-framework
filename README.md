@@ -165,7 +165,9 @@ Skills encode **how agents do the work**. Customize them per stack and tracker; 
 | `pr-builder` | Agent-driven draft-first PR packaging. |
 | `gh-stack` | Stacked branches and dependent PRs. |
 | `worktree` | Worktree setup and Worktrunk-oriented workflows. |
+| `handoff` | Platform-neutral HANDOFF notes under `<DOCS_ROOT>/execution/` for session transfer. |
 | `jira-api` | Draft companion for Jira-centric repos (when implemented). |
+| `confluence` | Placeholder workflow for Confluence-backed durable docs and completed specs. |
 | `conformance` | Focused standards-alignment change with PR-ready evidence. |
 | `doc-check` | Documentation formatting and consistency checks. |
 | `psql` | Safe PostgreSQL diagnostic guidance. |

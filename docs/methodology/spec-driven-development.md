@@ -173,7 +173,9 @@ work into the durable spec archive.
 | `pr-builder` | Packages draft PR evidence, risks, and spec links for review. |
 | `pr-review` | Reviews draft PRs for spec alignment, standards conformance, evidence quality, and maintainability. |
 | `gh-stack` | Manages stacked branch lanes when the approved review shape is a stack. |
+| `handoff` | Captures temporary HANDOFF context under `<DOCS_ROOT>/execution/` when implementation or review needs to resume in a fresh session. |
 | `jira-api` | Provides Jira-backed context when the repo uses Jira; live integration depends on repo support. |
+| `confluence` | Drafts or promotes durable docs and completed specs when Confluence is the repo-declared surface. |
 | Companion board/tracker integration (repo-configured) | Updates board tasks, notes, statuses, locks, and evidence when the repo uses a project board or external tracker. |
 
 ## Related Sections

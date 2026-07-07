@@ -118,6 +118,7 @@ Shared skills under [`.agents/skills/`](.agents/skills/) encode agent workflows:
 | Architecture docs | `architecture-doc-builder` |
 | Deliverable specifications | `spec-builder` |
 | Post-greenlight implementation | `spec-driven` |
+| Session handoff | `handoff` |
 | Implementation verification | `qa-testing` |
 | PR packaging | `pr-builder` |
 | Preparatory review (automated) | `pr-review` |

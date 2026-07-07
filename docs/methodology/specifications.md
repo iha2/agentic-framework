@@ -82,6 +82,7 @@ fresh-context QA passes expected.
 | `architecture-doc-builder` | Supplies design decisions and sequencing constraints that keep implementation aligned with intended system shape. |
 | `jira-api` | Provides Jira-backed context for issue scope and acceptance criteria when the repo uses Jira. |
 | Companion board/tracker integration (repo-configured) | Creates or synchronizes board-backed deliverables and specification paths when the repo uses a project board or external tracker. |
+| `confluence` | Drafts or promotes durable feature, architecture, roadmap, project milestone, and completed-spec pages when Confluence is the repo-declared surface. |
 | `doc-check` | Verifies specification hygiene and formatting before the contract is treated as ready. |
 
 ## Related Sections
