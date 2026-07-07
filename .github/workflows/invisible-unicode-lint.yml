@@ -1,0 +1,16 @@
+name: Invisible Unicode lint
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  invisible-unicode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan repository text for smuggling codepoints
+        run: python3 tools/invisible_unicode_lint/lint_invisible_unicode.py .
+      - name: Unit tests for the scanner
+        run: python3 -m unittest discover -s tools/invisible_unicode_lint -p 'test_*.py' -v

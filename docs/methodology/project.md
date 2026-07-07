@@ -43,5 +43,5 @@ Some organizations keep the **portfolio-facing** or leadership-approved project 
 ## Related Sections
 
 - [Architecture](./architecture.md)
-- [Features and Milestones](./features-and-milestones.md)
+- [Features and Project Milestones](./features-and-milestones.md)
 - [Specifications](./specifications.md)

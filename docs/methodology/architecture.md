@@ -7,9 +7,9 @@ Architecture documents describe the intended technical shape of the system. They
 Use two levels when needed:
 
 - `architecture/project.md`: project-wide system shape, module boundaries, deployment model, integration patterns, data ownership, and cross-cutting technical decisions.
-- `architecture/<feature>.md`: feature-level design for a long-lived capability or milestone sequence.
+- `architecture/<feature>.md`: feature-level design for a long-lived capability or roadmap-increment sequence.
 
-Small projects may start with only one architecture document. Add feature-level architecture when a capability spans multiple deliverables, services, data models, user journeys, or milestone phases.
+Small projects may start with only one architecture document. Add feature-level architecture when a capability spans multiple deliverables, services, data models, user journeys, or roadmap-increment phases.
 
 ### Authoritative packages elsewhere (e.g. SharePoint)
 
@@ -21,7 +21,7 @@ Formal architecture decks, diagrams, and sign-off packages may live in **SharePo
 - Important module, service, data, or UI boundaries
 - Data ownership and integration contracts
 - Sequence or flow diagrams for important paths
-- Milestone-level implementation sequence when relevant
+- Roadmap-increment or project-milestone implementation sequence when relevant
 - Technical decisions with rationale
 - Risks and open questions
 - Links to governing standards
@@ -45,5 +45,5 @@ If implementation reveals an architecture decision is wrong, update the architec
 ## Related Sections
 
 - [Project Document](./project.md)
-- [Features and Milestones](./features-and-milestones.md)
+- [Features and Project Milestones](./features-and-milestones.md)
 - [Specifications](./specifications.md)

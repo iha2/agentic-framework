@@ -7,7 +7,7 @@ Read in workflow order:
 1. [Project Document](./project.md)
 2. [Architecture](./architecture.md)
 3. [Proposals](./proposals.md)
-4. [Features and Milestones](./features-and-milestones.md)
+4. [Features and Project Milestones](./features-and-milestones.md)
 5. [Specifications](./specifications.md)
 6. [Spec-Driven Development](./spec-driven-development.md)
 7. [Deterministic Quality Gates and Conformance](./deterministic-quality.md)
@@ -30,7 +30,7 @@ Each section includes a `Relevant Skills` table that explains which skills apply
 | Project orientation | `feature-doc-builder`, `architecture-doc-builder`, `proposal-builder`, `miro-mcp` |
 | Architecture direction | `architecture-doc-builder`, `proposal-builder`, `spec-builder`, `miro-mcp` |
 | Proposals and decisions | `proposal-builder`, `feature-doc-builder`, `architecture-doc-builder`, `miro-mcp` |
-| Features and milestones | `feature-doc-builder`, `architecture-doc-builder`, `spec-builder` |
+| Features and project milestones | `feature-doc-builder`, `architecture-doc-builder`, `spec-builder`, `confluence` |
 | Deliverable specifications | `spec-builder`, `spec-driven`, `jira-api` |
 | Post-greenlight implementation | `spec-driven`, `handoff`, `qa-testing`, `pr-builder`, `pr-review` |
 | Deterministic quality gates and standards conformance | `standard-builder`, `conformance`, `doc-check`, `invisible-unicode-lint`, `qa-testing` |

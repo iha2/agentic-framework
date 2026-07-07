@@ -15,11 +15,11 @@ Validation has three layers:
 
 Passing tests are not enough if the tests do not prove the acceptance criteria.
 
-## Test Planning
+## Test Strategy
 
-The specification owns the test intent. Implementation may adapt mechanics, but it must not weaken the test contract without owner approval.
+The specification owns the test intent (the **Test Strategy** section in deliverable specs). Implementation may adapt mechanics, but it must not weaken the test contract without owner approval and an in-place specification update per [Spec-Driven Development](./spec-driven-development.md).
 
-Good test plans:
+Good test strategies:
 
 - map each acceptance criterion to evidence
 - prefer behavior-level tests over mock-only plumbing tests
@@ -51,6 +51,7 @@ Useful evidence includes:
 | Skill | How it helps efficiency |
 | ----- | ----------------------- |
 | `qa-testing` | Independently verifies acceptance criteria, checks evidence quality, identifies rework, and produces reviewer-ready validation notes. |
+| `spec-driven` | Routes contract-changing QA findings through in-place spec updates and the Implementation And Review Change Log. |
 | `pr-review` | Finds gaps in spec alignment, standards conformance, test quality, and maintainability before human review. |
 | `conformance` | Supports small targeted fixes when validation exposes standards drift in a bounded repo area. |
 | `doc-check` | Runs repo-local documentation checks for changed methodology, standards, and other docs. |
@@ -62,6 +63,7 @@ Useful evidence includes:
 ## Related Sections
 
 - [Specifications](./specifications.md)
+- [Spec-Driven Development](./spec-driven-development.md)
 - [Deterministic Quality Gates](./deterministic-quality.md)
 - [PR Creation](./pr-creation.md)
 - [Self-Review](./self-review.md)

@@ -38,7 +38,7 @@ This methodology provides a path from intent to **reviewer-approved** merge:
 project.md
   -> architecture.md
   -> proposals/
-  -> features/ and milestones
+  -> features/ (roadmap increments) and project milestones
   -> specifications/
   -> spec-driven implementation (post-greenlight)
   -> deterministic quality gates
@@ -78,7 +78,7 @@ Project-first layout under `<DOCS_ROOT>/`:
 - `proposals/` — decisions when the path is uncertain.
 - `features/` — long-lived capabilities and feature roadmap increments.
 - `specifications/` — bounded deliverable contracts **agents execute**.
-- `execution/` — mutable run logs, QA, handoffs (when on disk).
+- `execution/` — mutable run logs, QA notes, handoffs, and scratch analysis (when on disk; usually gitignored).
 - `standards/` — **rules humans own and agents apply**.
 
 Declare the docs root in `AGENTS.md`, commonly `docs/` or `.agentic/`. If using an environment variable for the root, use **`AGENTIC_DOCS_ROOT`** (repo-relative path only).
@@ -128,6 +128,7 @@ Shared skills under [`.agents/skills/`](.agents/skills/) encode agent workflows:
 | Standards conformance | `conformance` |
 | Documentation checks | `doc-check` |
 | Invisible Unicode / smuggling lint (extend rules) | `invisible-unicode-lint` |
+| Durable Confluence docs (when declared) | `confluence` |
 
 Utilities such as `jira-api`, `miro-mcp`, `psql`, and `sqlcmd` apply when the repo uses those systems.
 

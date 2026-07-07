@@ -21,7 +21,7 @@ This methodology provides:
 - **Engineer-led shaping:** architecture, specifications, and standards define intent, structure, and quality bars before and during delivery.
 - **Agent-accelerated execution:** bounded implementation, test runs, PR packaging, and preparatory review run against those contracts.
 - **Human judgment where it matters:** tradeoffs, exceptions, risk acceptance, and merge/release approval stay with people—especially senior engineers and accountable owners.
-- **Clearer intent before execution:** `project.md`, proposals, architecture, feature requirements, and milestones preserve *why* before agents implement. *(See **Stakeholder-facing vs agent-reference docs** below for the SBD Customer Engagement pattern: proposals and formal project/architecture artifacts in GitHub or SharePoint, with Git-tracked markdown in the repo for agents.)*
+- **Clearer intent before execution:** `project.md`, proposals, architecture, feature requirements, feature roadmap increments, and project milestones preserve *why* before agents implement. *(See **Stakeholder-facing vs agent-reference docs** below for the SBD Customer Engagement pattern: proposals and formal project/architecture artifacts in GitHub or SharePoint, with Git-tracked markdown in the repo for agents.)*
 - **Executable contracts:** deliverable specifications scope agent work with acceptance criteria, tests, standards pointers, and halt conditions.
 - **Deterministic + probabilistic quality:** linters, CI, and conformance PRs reduce variance; agent review skills tighten feedback before humans look.
 - **Parallel execution:** worktrees isolate agent lanes.
@@ -51,8 +51,9 @@ Workflows are **Git-native**: docs, code, evidence, and merge flow through branc
 project.md
   -> architecture.md
   -> proposals/
-  -> features/ and milestones
+  -> features/ (roadmap increments) and project milestones
   -> specifications/
+  -> spec-driven implementation (post-greenlight)
   -> deterministic quality gates
   -> standards conformance maintenance
   -> code generation (agents)
@@ -88,6 +89,17 @@ Many corporate programs need **non-technical stakeholders** to read, comment on,
 - **Project and architecture** — Keep **authoritative** narrative and visuals for humans in **SharePoint** (Word, PowerPoint, exported HTML or PDF, etc.) for portfolio reviews, steering committees, and shared drives. Maintain **`project.md`** and **`architecture/`** markdown in the repo as the **agent-reference** view: concise, structured, and loadable in context. Record which surface is authoritative for sign-off and who keeps the repo copy aligned in **`project.md`** (or a governance doc); use a **minimal `AGENTS.md`** to point there instead of restating the policy.
 
 Standards, specifications, features, and execution records can stay Git-first as today; the split above mainly affects **early funnel** artifacts that need broad visibility.
+
+### Mutable execution workspace (`execution/`)
+
+SBD repos use **`<DOCS_ROOT>/execution/`** for mutable, usually gitignored working artifacts during delivery — **not** `ephemeral/` (that name is used in other methodology variants). Typical contents:
+
+- run logs and phase progress
+- `handoff` notes (`*-HANDOFF-*.md`)
+- QA scratch findings and recovery notes
+- temporary evidence paths before promotion to PR or durable docs
+
+Declare the exact policy in `AGENTS.md`; external trackers (Jira, Azure DevOps, etc.) may replace or mirror on-disk execution records.
 
 ## Repository layout
 
@@ -215,6 +227,10 @@ rsync -avc --delete /path/to/agentic-framework/docs/ /path/to/consumer-repo/docs
 ```
 
 ## Changelog
+
+### 2026-07-07 — Spec-driven lifecycle and Zazz-aligned skills (SBD-adapted)
+
+Added **`spec-driven`** post-greenlight lifecycle, refreshed **`spec-builder`** and **`feature-doc-builder`**, introduced **project milestones vs feature roadmap increments**, and added **`handoff`** and **`confluence`** skills. Execution workspace remains **`<DOCS_ROOT>/execution/`**.
 
 ### 2026-06-19 — Miro skill and stakeholder boards
 

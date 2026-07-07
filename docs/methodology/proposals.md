@@ -50,11 +50,11 @@ The methodology does not require where stakeholders type; it requires **traceabi
 | ----- | ----------------------- |
 | `proposal-builder` | Guides option comparison, tradeoff analysis, recommendation drafting, and decision capture without premature implementation. |
 | `architecture-doc-builder` | Turns accepted technical proposals into durable architecture guidance. |
-| `feature-doc-builder` | Turns accepted product proposals into durable feature requirements and milestone direction. |
+| `feature-doc-builder` | Turns accepted product proposals into durable feature requirements and roadmap-increment direction. |
 | `spec-builder` | Converts an approved proposal outcome into the first bounded deliverable when the direction is ready to execute. |
 | `doc-check` | Catches documentation hygiene issues before proposal artifacts are reviewed or committed. |
 
 ## Related Sections
 
-- [Features and Milestones](./features-and-milestones.md)
+- [Features and Project Milestones](./features-and-milestones.md)
 - [Architecture](./architecture.md)

@@ -1,6 +1,6 @@
 # Code Generation
 
-Code generation is the implementation phase after a deliverable specification is approved. The agent or contributor works from the specification, relevant standards, and repo instructions.
+Code generation is the implementation phase after a deliverable specification is approved. The agent or contributor works from the specification, relevant standards, and repo instructions. Post-greenlight contract changes, rework, and signoff discipline follow [Spec-Driven Development](./spec-driven-development.md).
 
 ## Required Inputs
 
@@ -52,6 +52,8 @@ Stop and ask for owner direction when:
 | ----- | ----------------------- |
 | `worktree` | Creates or repairs isolated worktree lanes so implementation stays separate, recoverable, and easy to review. |
 | `spec-builder` | Supplies the approved execution contract, sequencing guidance, standards list, and halt conditions. |
+| `spec-driven` | Governs the post-greenlight AC/TDD loop, in-place contract updates, change log, and signoff discipline. |
+| `handoff` | Captures session-transfer notes under `<DOCS_ROOT>/execution/` when work pauses mid-implementation. |
 | `conformance` | Applies one focused standards-alignment fix against a named standard and bounded code area when implementation exposes drift. |
 | `psql` | Speeds safe PostgreSQL schema inspection, read-only checks, query profiling, and function/procedure diagnostics. |
 | `sqlcmd` | Speeds safe SQL Server schema inspection, stored procedure checks, timing probes, and read-only diagnostics. |
@@ -60,6 +62,7 @@ Stop and ask for owner direction when:
 ## Related Sections
 
 - [Specifications](./specifications.md)
+- [Spec-Driven Development](./spec-driven-development.md)
 - [Deterministic Quality Gates](./deterministic-quality.md)
 - [Testing and Validation](./testing-and-validation.md)
 - [PR Creation](./pr-creation.md)
