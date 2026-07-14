@@ -1,6 +1,21 @@
 # Graphify — code knowledge graph for agentic delivery
 
-[Graphify](https://github.com/safishamsi/graphify) builds a **queryable knowledge graph** from source code (and optionally docs). Agents explore the codebase structurally — `graphify query`, `path`, and `explain` — instead of brute-forcing grep and full-file reads across large monorepos.
+Here is a package with all information required to set up Graphify on a new computer. Or you can go to the source directly: [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify) — AI coding assistant skill (Claude Code, Codex, OpenCode, Cursor, Gemini, and more).
+
+## Simplest setup (recommended)
+
+1. **Unzip** the setup kit to a folder on your machine.
+2. **Open Cursor** and start a **new agent** in the directory that contains your project.
+3. **Drop the setup folder** into the agent's chat text input (attach `graphify-setup-kit/`).
+4. **Ask the agent:** “Set up Graphify in this *project name*.”
+5. Depending on the **agent and model**, it will use the documentation, prompt, or install scripts to complete setup.
+6. If you hit **errors**, paste them back to the agent and let it retry.
+
+The kit lives in [tooling/graphify-setup-kit/](../../tooling/graphify-setup-kit/README.md). Full manual steps are below if you prefer not to use an agent.
+
+---
+
+[Graphify](https://github.com/Graphify-Labs/graphify) builds a **queryable knowledge graph** from source code (and optionally docs). Agents explore the codebase structurally — `graphify query`, `path`, and `explain` — instead of brute-forcing grep and full-file reads across large monorepos.
 
 This framework ships **canonical documentation** and a **portable setup kit** so consumer repos can adopt Graphify without Git conflicts. Graphify artifacts stay **local and gitignored** on each machine; only pointers and tooling live in Git.
 
@@ -154,6 +169,6 @@ tooling/graphify-setup-kit/
 
 ## References
 
-- Upstream Graphify: https://github.com/safishamsi/graphify
+- Upstream Graphify: https://github.com/Graphify-Labs/graphify
 - Jira: [SKUNK-438](https://sbd-appsvcs-ebiz.atlassian.net/browse/SKUNK-438)
 - Reference consumer: global-services `docs/misc/graphify-local.md`

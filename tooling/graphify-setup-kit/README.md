@@ -1,5 +1,16 @@
 # Graphify Setup Kit
 
+Here is a package with all information required to set up Graphify on a new computer. Or go to the source directly: [Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify).
+
+## Simplest setup (recommended)
+
+1. **Unzip** this kit to a folder.
+2. **Open Cursor** and start a **new agent** in the directory that contains your project.
+3. **Drop this setup folder** into the agent's chat text input.
+4. **Ask the agent:** “Set up Graphify in this *project name*.”
+5. Depending on the **agent and model**, it will use the documentation, prompt, or install scripts.
+6. If you hit **errors**, paste them back to the agent.
+
 Portable package to install Graphify local configuration on a **new computer** or for a **new user** on a consumer repo (reference: **global-services**). No Git conflicts — deployed files are gitignored in the target repo.
 
 **Canonical docs:** [docs/graphify/](../../docs/graphify/README.md) in **agentic-sdlc-framework**.
@@ -123,5 +134,5 @@ See [docs/graphify/new-computer-setup.md](../../docs/graphify/new-computer-setup
 
 - Framework docs: [docs/graphify/](../../docs/graphify/README.md)
 - Jira: [SKUNK-438](https://sbd-appsvcs-ebiz.atlassian.net/browse/SKUNK-438)
-- Upstream: https://github.com/safishamsi/graphify
+- Upstream: https://github.com/Graphify-Labs/graphify
 - Reference consumer: global-services `docs/misc/graphify-local.md`
