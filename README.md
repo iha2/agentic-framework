@@ -44,6 +44,7 @@ Workflows are **Git-native**: docs, code, evidence, and merge flow through branc
 - [Code review graph guidance](docs/code-review-graph.md)
 - [Invisible text prompt injection, linting, and deterministic checks](docs/code-quality/invisible-text-prompt-injection-and-linting.md) — Unicode smuggling gate and rationale (`docs/code-quality/`)
 - [Human guidelines: agent instruction supply chain (for reviewers)](docs/security/agent-instruction-supply-chain-human-guidelines.md)
+- [Graphify code knowledge graph](docs/graphify/README.md) — setup kit, new-computer guide, agent workflow (SKUNK-438)
 
 ## Workflow
 
@@ -106,8 +107,10 @@ Declare the exact policy in `AGENTS.md`; external trackers (Jira, Azure DevOps, 
 ```text
 .agents/skills/     shared agent skills (AI-tool agnostic)
 docs/               methodology guides and supporting docs
+docs/graphify/      Graphify adoption docs (setup kit, guides, agent prompt)
 docs/standards/     reusable engineering standards
 templates/          example files for adopting repos
+tooling/            copy-into-repo tooling fragments (Graphify setup kit, ESLint examples)
 methodology.md      methodology overview and section index
 docs/methodology/   focused methodology sections
 ```
@@ -227,6 +230,10 @@ rsync -avc --delete /path/to/agentic-framework/docs/ /path/to/consumer-repo/docs
 ```
 
 ## Changelog
+
+### 2026-07-14 — Graphify setup documentation and tooling kit
+
+Added [docs/graphify/](docs/graphify/README.md) (complete guide, new-computer setup, agent prompt) and [tooling/graphify-setup-kit/](tooling/graphify-setup-kit/README.md) (portable `install.sh` / `install.ps1` / `install.cmd` for consumer repos). Reference adoption: global-services product-id program; Jira SKUNK-438.
 
 ### 2026-07-07 — Spec-driven lifecycle and Zazz-aligned skills (SBD-adapted)
 
