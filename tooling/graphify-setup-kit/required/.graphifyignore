@@ -1,0 +1,40 @@
+# Graphify scan scope: product-id program surfaces only (matches AGENTS.md primary scope
+# plus `web/` for product-id-ops). Repo root is still the scan root so `graphify-out/`
+# stays at the monorepo root and Cursor rules keep working.
+#
+# When this file exists, Graphify loads it instead of falling back to `.gitignore` for
+# the repo root — keep common noise patterns below in sync with what we still want excluded.
+
+# --- Allow only these top-level trees ---
+/*
+!services/
+!web/
+
+services/*
+!services/ocr/
+!services/places-proxy/
+!services/product-id/
+
+# --- Noise / generated (always exclude) ---
+node_modules/
+.pnpm-store/
+.turbo/
+.next/
+.nuxt/
+dist/
+build/
+out/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.git/
+graphify-out/
+.husky/_/
+
+# --- Secrets / local env ---
+.env
+.env.*
+
+# HTML graph viz defaults to 5000 nodes; this repo’s scoped graph is larger.
+# Regenerate graph.html + GRAPH_REPORT.md:
+#   GRAPHIFY_VIZ_NODE_LIMIT=12000 graphify cluster-only . --no-label
