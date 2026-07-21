@@ -1,4 +1,4 @@
-# Agentic Software Delivery
+<img width="1600" height="900" alt="methodology-heptagon-project-goals-for-light-slides" src="https://github.com/user-attachments/assets/95f14be9-cd17-416f-ae05-da8f88fdc3e5" /># Agentic Software Delivery
 
 **Agentic Software Delivery Methodology** — **engineering-led** delivery for software products, global web experiences, microservices, data-backed services, platforms, and internal enterprise applications. **Architecture**, **approved specifications**, and **curated standards** define *how* systems are shaped; **agents** accelerate bounded implementation and verification under **skilled engineer oversight**—not improvised “vibe coding.”
 
@@ -28,6 +28,34 @@ This methodology provides:
 - **Durable knowledge:** shipped work updates docs so decisions do not live only in chats or tickets.
 
 Workflows are **Git-native**: docs, code, evidence, and merge flow through branches and pull requests. Skills operationalize repeatable agent steps across runtimes.
+
+![Uploading methodology-heptagon-project-g<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Methodology heptagon with Project Goals</title>
+  <desc id="desc">Seven engineering disciplines arranged around a hand-drawn heptagon, with Methodology at the center. Project Goals replaces Code Hygiene.</desc>
+  <defs>
+    <style>
+      .shape { fill:none; stroke:#2b2b2b; stroke-width:7; stroke-linecap:round; stroke-linejoin:round; }
+      .echo { fill:none; stroke:#2b2b2b; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; opacity:.38; transform:translate(1.7px,-1px); }
+      .label { fill:#2b2b2b; font-family:"Comic Sans MS", "Marker Felt", cursive; font-size:46px; font-weight:bold; text-anchor:middle; }
+      .centerText { fill:#2b2b2b; font-family:"Comic Sans MS", "Marker Felt", cursive; font-size:50px; font-weight:bold; text-anchor:middle; }
+    </style>
+  </defs>
+
+  <!-- Transparent background; intended for a white or light slide background. -->
+  <g>
+    <path class="shape" d="M800 155 L1050 275 L1112 546 L939 763 L661 763 L488 546 L550 275 Z"/>
+    <path class="echo" d="M800 155 L1050 275 L1112 546 L939 763 L661 763 L488 546 L550 275 Z"/>
+  </g>
+  <text class="label" x="800" y="102">Specifications</text>
+  <text class="label" x="1240" y="270">Standards</text>
+  <text class="label" x="1265" y="560">Skills</text>
+  <text class="label" x="1020" y="845">Tools</text>
+  <text class="label" x="580" y="845">Architecture</text>
+  <text class="label" x="330" y="560">Tests</text>
+  <text class="label" x="350" y="270">Project Goals</text>
+  <text class="centerText" x="800" y="480">Methodology</text>
+</svg>
+oals-for-light-slides.svg…]()
 
 ## Quick links
 
