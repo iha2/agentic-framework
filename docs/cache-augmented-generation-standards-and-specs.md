@@ -2,7 +2,7 @@
 
 Date: 2026-05-23  
 Status: revised decision document  
-Archive: `docs/cache-augmented-generation-standards-and-specs.research-archive-2026-05-23.md`
+Note: Extended research corpus removed 2026-08-22 for token compression; see Git history before that commit.
 
 ## Purpose
 

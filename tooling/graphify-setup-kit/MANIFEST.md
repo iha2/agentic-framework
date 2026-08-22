@@ -23,13 +23,13 @@ Portable package to deploy Graphify local configuration to **global-services** (
 
 ## Reference docs (`--docs`)
 
-Copied to `<target>/private/graphify-docs/` (gitignored personal folder if present):
+Copied to `<target>/private/graphify-docs/` (gitignored personal folder if present). **Stubs only** — canonical prose lives in upstream `docs/graphify/`:
 
 | Kit path | Purpose |
 |---|---|
-| `docs/graphify-guide.md` | Complete Graphify reference |
-| `docs/graphify-new-computer-setup.md` | New machine setup guide |
-| `docs/graphify-agent-setup-prompt.md` | Copy-paste agent prompt |
+| `docs/graphify-guide.md` | Redirect + quick commands → canonical guide |
+| `docs/graphify-new-computer-setup.md` | Redirect + minimal install commands |
+| `docs/graphify-agent-setup-prompt.md` | Redirect → canonical agent prompt |
 
 ## Never included (build on each machine)
 
