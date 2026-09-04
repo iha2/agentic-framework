@@ -1,187 +1,72 @@
 # Spec-Driven Development
 
-Spec-driven development is the lifecycle after a deliverable specification is greenlit.
-The specification remains the current implementation contract while agents implement,
-verify, absorb Owner steering, respond to QA and PR feedback, and prepare for human
-signoff.
+Lifecycle after a deliverable specification is greenlit. The spec remains the current implementation contract while agents implement, verify, absorb Owner steering, respond to QA/PR feedback, and prepare for human signoff.
 
-## Purpose
-
-This section is the canonical methodology home for the post-greenlight loop. Use it when
-the question is how an approved specification moves through implementation, steering,
-review feedback, re-verification, and merge readiness.
-
-Use [Specifications](./specifications.md) for how to author the contract before
-greenlight. Use this section once the contract is approved and implementation begins.
+Authoring before greenlight: [Specifications](./specifications.md). This section starts once the contract is approved.
 
 ## Lifecycle
 
 ```text
-spec creation and refinement
-  -> Owner greenlight
-  -> AC/TDD implementation loop
-  -> Owner steering, QA/UAT, or PR feedback
-  -> in-place spec updates when the contract changes
-  -> Implementation And Review Change Log entry
-  -> rework and re-verification
-  -> draft PR evidence and self-review
-  -> final human signoff and merge
-  -> promote completed spec to durable storage when repo policy requires it
+spec creation → Owner greenlight → AC/TDD loop
+  → Owner steering / QA/UAT / PR feedback
+  → in-place spec updates when contract changes
+  → Implementation And Review Change Log entry
+  → rework + re-verify → draft PR + self-review
+  → human signoff + merge → promote completed spec if policy requires
 ```
 
-The loop is controlled, not waterfall. Steering and review feedback may occur during
-implementation or draft PR review. Accepted contract changes update the affected
-specification sections in place so the spec body always reads as the current contract.
+Steering/review feedback may arrive mid-implementation. Accepted contract changes update affected sections in place so the body always reads as current truth.
 
 ## Current Contract And Change Log
 
-The specification body is the executable truth. If accepted feedback changes scope,
-acceptance criteria, test strategy, implementation sequence, public behavior, UX flow,
-API/schema/validation behavior, branch topology, or a bug-fix contract, update the
-affected spec sections in place.
+Update in place when accepted feedback changes scope, ACs, test strategy, sequence, public behavior, UX, API/schema/validation, branch topology, or bug-fix contract.
 
-The final `Implementation And Review Change Log` records the audit trail:
-
-- timestamp and source
-- changed section links or section numbers
-- rationale
-- summary of in-place edits
-- verification impact
-
-The change log is not a second source of requirements. It explains how the current
-contract got there.
+Final `Implementation And Review Change Log` is audit trail only (timestamp, source, section links, rationale, edit summary, verification impact) — not a second requirements source.
 
 ## Execution Records
 
-Append-only execution history belongs in the run log or repo-declared execution system,
-not in the long-lived specification body. The run log grows as work proceeds; do not
-rewrite prior entries unless the user explicitly asks.
+Append-only run log / declared execution system — not the long-lived spec body. Include open-question resolutions, phase progress, failed attempts worth remembering, deviations, evidence locations, QA/rework, handoffs, subagent outcomes. Follow `AGENTS.md` for `<DOCS_ROOT>/execution/` vs tracker layout.
 
-Execution records include:
+## Lead Agent And Worktree
 
-- open-question resolutions
-- phase progress
-- failed attempts worth remembering
-- deviations inside adaptive guidance
-- evidence locations
-- QA findings and rework notes
-- handoff notes
-- subagent outcomes
+One active worktree or stacked lane for the approved review artifact. Lead owns: scope vs current spec, phase/task order, file-conflict serialization, delegated-work integration, evidence↔AC mapping, run-log updates, PR-ready output.
 
-Repos may use local files under `<DOCS_ROOT>/execution/`, a project board or external
-tracker, Jira, another tracker, or a combination when `AGENTS.md` declares that policy.
-Follow the repo's declared filenames and layout.
-
-## Lead Agent And Worktree Discipline
-
-Implementation runs in one active worktree or one stacked branch lane for the approved
-review artifact. A lead implementation agent owns the specification during execution.
-
-The lead implementation agent owns:
-
-- scope control against the current specification
-- ordering of phases and tasks
-- file-conflict serialization inside the active worktree
-- integration of delegated work
-- evidence quality and acceptance-criteria mapping
-- run-log or tracker updates
-- PR-ready output
-
-Subagents may help with bounded phases, tasks, branch slices, tests, documentation, or
-QA checks when the specification allows it. The lead must order overlapping file work so
-agents do not overwrite one another. If two tasks may touch the same file, serialize the
-tasks and reconcile the diff before continuing.
-
-Subagents should return changed-file summaries, commands run, evidence, risks, and
-unresolved questions. If subagents are not available in the active harness, the lead
-agent performs the work directly and records that in the execution record.
+Subagents: bounded phases/tasks/tests/docs/QA when allowed; serialize overlapping file work. Return changed files, commands, evidence, risks, questions. If no subagents, lead does the work and records that.
 
 ## AC/TDD Loop
 
-The implementation loop is acceptance-criteria driven:
+1. Read approved spec + references; verify applicable standards
+2. Resolve open questions before editing
+3. Start at specified TDD entry / strongest narrow verification
+4. Implement smallest coherent slice; run named checks; record evidence
+5. Repeat until every current AC has evidence
 
-1. Read the approved specification and required references.
-2. Verify applicable standards from the standards index.
-3. Resolve open questions before editing.
-4. Start from the specified TDD entry point or strongest narrow verification.
-5. Implement the smallest coherent slice.
-6. Run the named tests or manual checks.
-7. Record evidence and useful execution history.
-8. Repeat until every current AC has evidence.
-
-Tests and manual checks should prove observable behavior, realistic edge cases, public
-contracts, regressions, or named risks. Passing tests are not enough if they do not prove
-the ACs.
+Passing tests are insufficient if they do not prove the ACs.
 
 ## Fresh-Context QA
 
-Independent QA and verifier agents should run with fresh context when available. A QA
-agent may focus on one quality dimension, such as:
-
-- functionality and acceptance criteria
-- test quality
-- performance
-- code hygiene and maintainability
-- standards conformance
-- security
-- accessibility
-- stacked-branch no-drift
-
-QA agents read the current specification, execution record, relevant evidence, and
-focused code scope. They do not modify code. They return PASS/FAIL findings with
-evidence and rework recommendations.
-
-QA findings that reveal a contract change use the same in-place spec update and
-Implementation And Review Change Log protocol. Findings that only require implementation
-repair stay in the run log, tracker, PR, or review thread.
+Independent QA/verifiers SHOULD use fresh context. Dimensions may include functionality/ACs, test quality, performance, hygiene, standards, security, a11y, stacked no-drift. QA does not modify code; returns PASS/FAIL with evidence. Contract-changing findings use in-place spec + change-log protocol; implementation-only findings stay in run log/tracker/PR.
 
 ## Draft PR Feedback
 
-Draft PRs are part of the feedback loop. PR review, self-review, and human testing may
-surface implementation defects, weak evidence, standards issues, or contract gaps.
-
-When feedback changes the contract, update the relevant specification sections in place,
-append a change-log entry, update the execution record, and re-verify affected ACs. When
-feedback does not change the contract, keep it in the PR thread, run log, tracker, or
-commit history as appropriate.
+Draft PRs are part of the loop. Contract-changing feedback → update spec sections, change-log entry, execution record, re-verify ACs. Non-contract feedback stays in PR thread / run log / commits.
 
 ## Completed-Spec Promotion
 
-After the PR lands, follow the repo's declared document storage mode. If completed
-implemented specifications are durable artifacts, promote the final current
-specification from `<DOCS_ROOT>/specifications/` to the durable completed-spec location
-when that durable location is outside the repo or when policy requires archival.
-
-Durable completed-spec locations include:
-
-- `<DOCS_ROOT>/specifications/` for committed Markdown
-- another repo wiki or knowledge base declared in `AGENTS.md`
-- a project board, Jira, or another tracker-backed archive
-
-The promoted spec should retain the final `Implementation And Review Change Log` and
-link the PR, merge commit, feature, project milestone, roadmap, and architecture context when
-available. Do not promote run logs, scratch notes, failed attempts, or transient QA
-work into the durable spec archive.
+After merge, follow declared storage mode. Promote final current spec (with change log + PR/merge links) to durable location when required. Do not promote run logs, scratch, failed attempts, or transient QA into the durable archive.
 
 ## Relevant Skills
 
-| Skill | How it helps efficiency |
-| ----- | ----------------------- |
-| `spec-driven` | Applies the post-greenlight lifecycle, contract-change protocol, lead/subagent coordination, and signoff discipline. |
-| `spec-builder` | Creates the greenlit specification, implementation prompt, tracking model, and change-log section that SDD executes against. |
-| `qa-testing` | Runs focused fresh-context verification and produces findings or evidence. |
-| `pr-builder` | Packages draft PR evidence, risks, and spec links for review. |
-| `pr-review` | Reviews draft PRs for spec alignment, standards conformance, evidence quality, and maintainability. |
-| `gh-stack` | Manages stacked branch lanes when the approved review shape is a stack. |
-| `handoff` | Captures temporary HANDOFF context under `<DOCS_ROOT>/execution/` when implementation or review needs to resume in a fresh session. |
-| `jira-api` | Provides Jira-backed context when the repo uses Jira; live integration depends on repo support. |
-| `confluence` | Drafts or promotes durable docs and completed specs when Confluence is the repo-declared surface. |
-| Companion board/tracker integration (repo-configured) | Updates board tasks, notes, statuses, locks, and evidence when the repo uses a project board or external tracker. |
+| Skill | Role |
+| --- | --- |
+| `spec-driven` | Post-greenlight lifecycle + contract-change protocol |
+| `spec-builder` | Greenlit spec, prompt, tracking, change-log section |
+| `qa-testing` | Fresh-context verification |
+| `pr-builder` / `pr-review` | Package and grade draft PRs |
+| `gh-stack` | Stacked review shape |
+| `handoff` | Resume context under execution/ |
+| `jira-api` / `confluence` / board integration | When repo-declared |
 
-## Related Sections
+## Related
 
-- [Specifications](./specifications.md)
-- [Code Generation](./code-generation.md)
-- [Testing and Validation](./testing-and-validation.md)
-- [PR Creation](./pr-creation.md)
-- [Self-Review](./self-review.md)
+[Specifications](./specifications.md) · [Code Generation](./code-generation.md) · [Testing](./testing-and-validation.md) · [PR Creation](./pr-creation.md) · [Self-Review](./self-review.md)

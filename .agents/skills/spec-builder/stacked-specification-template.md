@@ -1,42 +1,28 @@
 <!--
-  TEMPLATE — Stacked Deliverable Specification (spec-builder skill)
-
-  Copy this file to:
-    <DOCS_ROOT>/specifications/<slug>.md
-
-  The repo operating model decides whether specifications/ is tracked, ignored,
-  mirrored to a project board, Jira, or another declared tracker, or promoted after merge.
-
-  Replace every `{{ ... }}` placeholder. Resolve every `<!-- TBD: ... -->`
-  marker. Delete this template comment block when filling in for a real deliverable.
-
-  Do not enforce a universal stack-size cap. Keep each PR reviewable on its own terms:
-  clear dependency, focused purpose, concrete acceptance criteria, and human sign-off.
-
-  Stacked review is an approved specification-time decomposition choice. Do not use this
-  template to retrofit a stack around an oversized implementation after coding starts.
+  TEMPLATE — Stacked Deliverable Specification (spec-builder)
+  Copy to: <DOCS_ROOT>/specifications/<slug>.md
+  Storage per repo operating model. Replace {{ ... }}; delete this comment when filling.
+  No universal stack-size cap — each PR reviewable. Stacked review = SPEC-time choice; MUST NOT retrofit after coding starts.
 -->
 
 # {{ Deliverable Name }} — Stacked Deliverable Specification
 
-> This specification covers a stacked branch lane. Per-branch sequencing, acceptance
-> criteria, and implementation prompts live here; active execution state lives in the
-> run log or external record declared below.
+> Per-branch sequencing/ACs/prompts here; execution state in declared run log/external record.
 
 **Worktree / lane:** `{{ lane-worktree }}`
 **Feature:** {{ feature-name-or-N/A }}
 **Milestone:** {{ milestone-name-or-N/A }}
 **Deliverable(s):** {{ deliverable-name-list }}
-**Specification storage:** {{ <DOCS_ROOT>/specifications/<slug>.md; tracked | ignored | mirrored/promoted to external system }}
-**Run log:** {{ `<DOCS_ROOT>/execution/<lane-slug>-run-log.md`, project board or external tracker note, external tracker record, or N/A }}
-**Execution record sharing:** {{ local ignored file | project board or external tracker centralized record | external tracker record }}
-**Execution tracking:** {{ local run log only | project board or external tracker IDs | Jira issue key/URL | other tracker reference }}
-**Implementation coordination:** {{ lead implementation agent only | lead implementation agent coordinating subagents by branch/phase/task }}
-**Companion skills for implementation:** `gh-stack`; {{ `jira-api` or repo-configured companion board/tracker integration | `jira-api` | repo-specific tracker skill/guidance | no tracker skill }}
+**Specification storage:** {{ <DOCS_ROOT>/specifications/<slug>.md; tracked | ignored | mirrored/promoted }}
+**Run log:** {{ `<DOCS_ROOT>/execution/<lane-slug>-run-log.md`, board/tracker, or N/A }}
+**Execution record sharing:** {{ local ignored | board centralized | external tracker }}
+**Execution tracking:** {{ local | board/tracker IDs | Jira | other }}
+**Implementation coordination:** {{ lead only | lead + subagents by branch/phase/task }}
+**Companion skills:** `gh-stack`; {{ `jira-api` / board skill / guidance / none }}
 **Integration branch:** `{{ integration-branch }}` (confirmed with Owner)
 **Merge policy:** PR review required for every PR in the stack
 **Approved review shape:** bounded stacked review lane
-**Decomposition rationale:** {{ why stacked PRs are clearer than one PR, one milestone PR, or sibling PRs }}
+**Decomposition rationale:** {{ why stacked vs one PR / milestone / siblings }}
 
 ---
 
@@ -44,45 +30,30 @@
 
 ### Why This Is Stacked
 
-{{ Explain why dependent PRs are clearer than one milestone PR or sibling PRs. Name the
-dependency or review boundary. }}
+{{ Why dependent PRs beat milestone/sibling; name dependency/review boundary. }}
 
-This stack is approved before implementation starts. If implementation surfaces a need
-to add branches, remove branches, split into sibling PRs, collapse into one PR, or treat
-the work as a large exception, stop and revise this specification with Owner sign-off
-before continuing.
+Approved before impl. Shape changes (add/remove/split/collapse/large exception) → halt; revise with Owner sign-off.
 
 ### Worktree Topology
 
-All stacked branches live inside one worktree lane. Do not create one worktree per stack
-branch.
+One worktree lane for all stack branches — MUST NOT one worktree per branch.
 
 | Branch | Role | Review dependency |
 | --- | --- | --- |
-| `{{ lower-branch }}` | {{ lower branch purpose }} | Base branch for the next PR |
-| `{{ upper-branch }}` | {{ upper branch purpose }} | Depends on `{{ lower-branch }}` |
+| `{{ lower-branch }}` | {{ purpose }} | Base for next PR |
+| `{{ upper-branch }}` | {{ purpose }} | Depends on `{{ lower-branch }}` |
 
 ### Rebase Rule
 
-Upper branches rebase upstack from lower branches until the lower PR lands on the
-integration branch through human review. After a lower PR lands, dependent upper branches
-rebase on `origin/{{ integration-branch }}` and verify that lower-branch commits drop out
-of the upper PR diff.
+Upper rebases upstack until lower lands via human review; then rebase on `origin/{{ integration-branch }}` and verify lower commits drop from upper diff.
 
-All `gh stack` commands in this specification must be non-interactive:
-
-- pass branch names to `init`, `add`, and `checkout`
-- use `gh stack view --json`
-- use `gh stack submit --auto`, with `--draft` for draft PRs
-- use `--remote origin` when multiple remotes are configured, or preconfigure
-  `git config remote.pushDefault origin`
-- configure `git config rerere.enabled true` before stack setup
+`gh stack` MUST be non-interactive: named args to `init`/`add`/`checkout`; `view --json`; `submit --auto` [`--draft`]; `--remote` or `pushDefault`; `rerere.enabled true` before setup.
 
 ---
 
 ## 1. Required Reading
 
-- `{{ AGENTS.md or repo orientation }}` — {{ sections }}
+- `{{ AGENTS.md or orientation }}` — {{ sections }}
 - `{{ feature document or N/A }}` — {{ sections }}
 - `{{ architecture document or N/A }}` — {{ sections }}
 - `{{ standards index and standards }}` — {{ sections }}
@@ -92,8 +63,7 @@ All `gh stack` commands in this specification must be non-interactive:
 
 ## 2. Cross-Branch Contract
 
-{{ Define the concrete contract lower branches expose to upper branches: symbols, API
-shape, schema, data shape, events, files, or behavior. This is the load-bearing seam. }}
+{{ Concrete contract lower exposes to upper: symbols, API, schema, data, events, files, or behavior. Load-bearing seam. }}
 
 ### Contract Invariants
 
@@ -102,9 +72,7 @@ shape, schema, data shape, events, files, or behavior. This is the load-bearing 
 
 ### Contract Change Rule
 
-If an upper branch needs a contract change from a lower branch, or if any branch needs a
-different review shape than this approved stack, stop and revise this specification with
-Owner sign-off before continuing.
+Upper needs lower-contract change, or any branch needs different review shape → halt; revise with Owner sign-off.
 
 ---
 
@@ -127,24 +95,14 @@ Owner sign-off before continuing.
 
 ### Test Strategy
 
-Test value rule: every automated test must prove an AC, invariant, public contract,
-realistic edge case, regression, or named risk. Prefer compact matrices that cover
-multiple realistic edge cases at the same behavior boundary. Reuse existing coverage
-when it already proves the behavior; do not add duplicate, mock-only, unrealistic
-permutation, or coverage-padding tests.
+**Value:** prove AC/invariant/contract/edge/regression/risk; compact matrices; reuse existing; MUST NOT pad. **Contract:** intent/data/edges before impl; MUST NOT weaken to pass; material change → Owner + in-place + §9.
 
-Test contract rule: this section defines required test intent, reference data, realistic
-edge cases, and verification layer before implementation starts. Implementers may adapt
-local mechanics, but they must not weaken or rewrite this coverage to make implementation
-pass. Material changes require Owner sign-off, in-place specification updates, and a §9
-change-log entry.
-
-- `test_{{ name }}` — verifies {{ AC# / contract / regression }} plus edge cases {{ case list }} by asserting {{ observable behavior }}.
-- Existing coverage reused: {{ existing test path/name, or N/A }} — {{ rationale }}.
+- `test_{{ name }}` — verifies {{ AC# / contract / regression }} + edges {{ cases }} asserting {{ observable }}.
+- Existing reused: {{ path/name or N/A }} — {{ rationale }}.
 
 ### Execution Sequence
 
-1. {{ first failing test or verification entry point }}
+1. {{ first failing test or verification entry }}
 2. {{ implementation phase }}
 3. {{ verification phase }}
 
@@ -167,29 +125,18 @@ change-log entry.
 - **AC1** — {{ testable criterion }}. Verified by: {{ test/command/evidence }}.
 - **AC2** — No drift across lower-branch-owned scope. Verified by:
   `git diff origin/{{ lower-branch }}...HEAD -- {{ lower owned paths }}` while stacked,
-  and `git diff origin/{{ integration-branch }}...HEAD -- {{ lower owned paths }}` after
-  the lower PR lands.
+  and `git diff origin/{{ integration-branch }}...HEAD -- {{ lower owned paths }}` after lower lands.
 
 ### Test Strategy
 
-Test value rule: every automated test must prove an AC, invariant, public contract,
-realistic edge case, regression, or named risk. Prefer compact matrices that cover
-multiple realistic edge cases at the same behavior boundary. Reuse existing coverage
-when it already proves the behavior; do not add duplicate, mock-only, unrealistic
-permutation, or coverage-padding tests.
+**Value:** prove AC/invariant/contract/edge/regression/risk; compact matrices; reuse existing; MUST NOT pad. **Contract:** intent/data/edges before impl; MUST NOT weaken to pass; material change → Owner + in-place + §9.
 
-Test contract rule: this section defines required test intent, reference data, realistic
-edge cases, and verification layer before implementation starts. Implementers may adapt
-local mechanics, but they must not weaken or rewrite this coverage to make implementation
-pass. Material changes require Owner sign-off, in-place specification updates, and a §9
-change-log entry.
-
-- `test_{{ name }}` — verifies {{ AC# / contract / regression }} plus edge cases {{ case list }} by asserting {{ observable behavior }}.
-- Existing coverage reused: {{ existing test path/name, or N/A }} — {{ rationale }}.
+- `test_{{ name }}` — verifies {{ AC# / contract / regression }} + edges {{ cases }} asserting {{ observable }}.
+- Existing reused: {{ path/name or N/A }} — {{ rationale }}.
 
 ### Execution Sequence
 
-1. {{ first failing test or verification entry point }}
+1. {{ first failing test or verification entry }}
 2. {{ implementation phase }}
 3. {{ verification phase }}
 
@@ -197,163 +144,90 @@ change-log entry.
 
 ## 5. Cross-Branch Acceptance Bar
 
-The landed PRs together satisfy every per-branch AC and preserve the cross-branch
-contract. Every PR in the stack requires human sign-off before merge.
+Landed PRs together satisfy every per-branch AC and preserve cross-branch contract. Every stack PR needs human sign-off before merge.
 
 ---
 
 ## 6. Agent Implementation Rules
 
-- Agents may commit and push stack branches when instructed.
-- Agents must not merge directly to `{{ integration-branch }}`.
-- Open draft PRs first, run author-side automated review, address feedback, then mark
-  ready for formal review.
-- Follow the approved stack shape in §0. Do not add, remove, split, or collapse stack
-  branches without Owner sign-off, in-place specification updates, and a §9 change-log entry.
-- Run applicable standards lookup before code changes.
-- Keep each branch's commits scoped to that branch's ownership.
-- Halt on unresolved open questions, repeated test failure, scope drift, missing
-  reference data, or contract changes.
-- Update the run log or external record after each phase and QA pass when a run log is used.
-- Use {{ local run log only | project board or external tracker | Jira | other tracker }} as the execution
-  tracking system. Load {{ `jira-api` or repo-configured companion board/tracker integration | `jira-api` | repo-specific tracker guidance | N/A }}
-  when that system is declared.
-- If using a project board or external tracker, update stack branch/task progress, subagent progress, notes, file locks when required, and evidence links through the repo-declared integration.
-- If using Jira, use the repo-provided or Owner-provided Jira issue context through
-  `jira-api`; do not assume live Jira access unless the repo declares it.
-- If subagents are used, the lead implementation agent owns stack shape, branch
-  checkouts, file-conflict serialization, integration, evidence quality,
-  run-log/tracker updates, and PR-ready output. Subagents may own only delegated
-  branch/phase/task slices and must return changed-file summaries, commands run,
-  evidence, risks, and unresolved questions.
-- Order work inside the single lane worktree so overlapping file ownership is
-  serialized. Do not run or merge delegated tasks in a way that lets agents overwrite
-  each other's edits. When two tasks may touch the same file, the lead agent sequences
-  them and reconciles the diff before continuing.
+- Commit/push stack branches when instructed; MUST NOT merge to `{{ integration-branch }}`.
+- Draft PRs first → author-side review → ready for formal review.
+- §0 stack shape fixed unless Owner sign-off + in-place SPEC + §9.
+- Standards lookup before code; commits scoped per branch ownership.
+- Halt: unresolved OQs, repeated test fail, scope drift, missing ref data, contract change.
+- Update run log/external after phases/QA when used.
+- Tracking: {{ local | board/tracker | Jira | other }}; companion {{ `jira-api` / board skill / guidance / N/A }}.
+- Board: progress/notes/locks/evidence via integration; Jira via `jira-api` (no live assume).
+- Subagents: lead owns stack/checkouts/serialization/integration/evidence/tracker/PR-ready; subagents return files/commands/evidence/risks/OQs only for delegated slices.
+- Single lane; serialize overlapping files — MUST NOT overwrite.
 
 ### Delegation Map
 
 | Branch / phase / task | Owner | Allowed scope | Required evidence |
 | --- | --- | --- | --- |
-| {{ branch/phase/task }} | {{ lead agent | subagent role }} | {{ paths/contract boundary }} | {{ tests/checks/output }} |
+| {{ branch/phase/task }} | {{ lead | subagent role }} | {{ paths/boundary }} | {{ tests/checks/output }} |
 
 ### Independent QA / Verification Agents
 
-Use fresh-context QA/verifier agents for {{ functionality | performance | code hygiene |
-security | accessibility | standards | stack no-drift | N/A }} when available. Each QA
-agent should read only the specification, run log/tracker record, relevant evidence, and
-focused code scope it needs for its quality dimension. QA agents do not modify code; they
-return PASS/FAIL findings with evidence and rework recommendations.
+Fresh-context QA for {{ functionality | performance | hygiene | security | a11y | standards | stack no-drift | N/A }}. Read SPEC + run log/tracker + evidence + focused code only. MUST NOT modify code; PASS/FAIL + evidence + rework.
 
 ---
 
 ## 7. Definition Of Done
 
-- [ ] Required reading completed.
-- [ ] Open questions resolved.
-- [ ] Lower-branch ACs verified.
-- [ ] Upper-branch ACs verified.
-- [ ] No-drift verification passed.
-- [ ] Stack shape still matches the approved decomposition in §0.
-- [ ] Applicable standards verified.
-- [ ] Run-log/tracker record is current for each branch/task, including subagent
-      outcomes when subagents were used.
-- [ ] Draft PRs created and author-side automated review addressed.
-- [ ] Formal PR review ready.
-- [ ] Human sign-off obtained for every PR before merge.
+- [ ] Required reading completed
+- [ ] Open questions resolved
+- [ ] Lower-branch ACs verified
+- [ ] Upper-branch ACs verified
+- [ ] No-drift verification passed
+- [ ] Stack shape still matches §0
+- [ ] Applicable standards verified
+- [ ] Run-log/tracker current per branch/task (incl. subagent outcomes)
+- [ ] Draft PRs created; author-side automated review addressed
+- [ ] Formal PR review ready
+- [ ] Human sign-off for every PR before merge
 
 ---
 
 ## 8. Implementation Prompt
 
 ```text
-You are implementing the stacked deliverable described at:
-{{ specification path or external record }}
+SPEC: {{ specification path or external record }}
+Lane: {{ lane-worktree }}
+Integration: {{ integration-branch }}
+Run log: {{ path, board/tracker, or N/A }}
+Tracking: {{ local | board/tracker | Jira | other }}
+Coordination: {{ lead only | lead + subagents }}
+Skills: `gh-stack`; {{ `jira-api` / board skill / guidance / none }}
 
-Use lane worktree:
-{{ lane-worktree }}
+Read SPEC then run log. Confirm §0 stack shape before code — else Owner sign-off + SPEC update.
+Non-interactive gh-stack. Draft PRs → author review → ready. MUST NOT merge to integration; human sign-off per PR.
 
-Integration branch:
-{{ integration-branch }}
+TRACKING: board → status/notes/subagent/locks/evidence; Jira → `jira-api` (no live assume); other → repo workflow; local → run log + PR evidence.
 
-Read the specification end to end, then read the run log or external execution record:
-{{ `<DOCS_ROOT>/execution/<lane-slug>-run-log.md`, project board or external tracker note, external tracker record, or N/A }}
+LEAD/SUBAGENTS: single lane. Lead owns stack, checkouts, rebase/upstack, scope, serialization, integration, evidence, tracker, PR-ready. Subagents only §6 slices; return files/commands/evidence/risks/OQs. Serialize overlapping files. No subagents → lead runs phases; log that.
 
-Execution tracking:
-{{ local run log only | project board or external tracker IDs | Jira issue | other tracker reference }}
-
-Implementation coordination:
-{{ lead implementation agent only | lead implementation agent coordinating subagents }}
-
-Companion skills to load:
-`gh-stack`; {{ `jira-api` or repo-configured companion board/tracker integration | `jira-api` | repo-specific tracker guidance | no tracker skill }}
-
-Before writing code, confirm the stack still matches the approved review shape in §0.
-If it does not, stop and ask for Owner sign-off and a specification update.
-
-Use gh-stack. Keep all stack commands non-interactive. Open draft PRs first, run
-author-side automated review, address feedback, then mark ready for formal review.
-
-TRACKING SYSTEM
-- If execution tracking uses a project board or external tracker, follow the repo-declared
-  project/deliverable/task identifiers. Update branch/task status, subagent progress,
-  notes, file locks when required, and evidence links through that skill.
-- If execution tracking is Jira, load `jira-api` and use the repo-provided or
-  Owner-provided issue key/URL and acceptance context. Do not assume live Jira
-  access unless the repo declares it.
-- If execution tracking is another tracker, follow the repo-declared workflow named in
-  this specification.
-- If execution tracking is local run log only, keep the run log and PR evidence current.
-
-LEAD / SUBAGENT OPERATING MODEL
-- Work in the single lane worktree named by the specification.
-- The lead implementation agent owns the approved stack shape, branch checkouts,
-  rebase/upstack propagation, scope control, file-conflict serialization, integration,
-  evidence quality, run-log/tracker updates, and final PR-ready output.
-- If this specification allows subagents, delegate only the branch/phase/task slices
-  listed in §6. Give each subagent its branch/scope, ACs, required evidence, and halt
-  conditions.
-- Require every subagent to return changed-file summaries, commands run, evidence, risks,
-  and unresolved questions. The lead reconciles subagent output before declaring any AC
-  complete.
-- Order overlapping file work so delegated tasks do not overwrite each other. If two
-  tasks may touch the same file, serialize them and reconcile the diff before continuing.
-- If subagents are not available in the active harness, the lead implementation agent
-  performs the phases directly and records that in the run log.
-
-FRESH-CONTEXT QA / VERIFICATION
-- Use separate fresh-context QA/verifier agents for the quality dimensions named in §6
-  when the active harness supports them.
-- QA/verifier agents read the specification, run log/tracker record, relevant evidence,
-  and focused code scope; they do not modify code.
-- Treat QA findings that change the implementation contract through the Implementation
-  And Review Change Log protocol.
-
-Do not merge directly to the integration branch. Every PR in the stack requires human
-sign-off before merge.
+QA: fresh-context for §6 dimensions; read-only; contract changes → Change Log protocol.
 ```
 
 ---
 
 ## 9. Implementation And Review Change Log
 
-Accepted steering, QA/UAT findings, PR review feedback, branch-contract changes, or
-implementation-discovered bugs that change the contract must update the affected sections
-above in place. This section records the audit trail; the current contract lives in the
-body of the specification.
+Contract-changing feedback → update affected sections in place. This section = audit trail; body = current contract.
 
 No changes recorded. Delete this line when adding the first change-log entry.
 
 ### {{ YYYY-MM-DD HH:MM TZ }} — {{ Short Change Title }}
 
-**Source.** {{ Owner steering, QA/UAT, PR review, implementation-discovered bug, or other source. }}
+**Source.** {{ Owner steering, QA/UAT, PR review, implementation-discovered bug, or other. }}
 
-**Changed Sections.** {{ Links or section numbers, e.g. [§2 Cross-Branch Contract](#2-cross-branch-contract), [§3 Branch](#3-branch-lower-branch). }}
+**Changed Sections.** {{ e.g. [§2 Cross-Branch Contract](#2-cross-branch-contract) }}
 
-**Rationale.** {{ Why the accepted change was needed. }}
+**Rationale.** {{ Why needed. }}
 
-**Summary.** {{ Short summary of the in-place spec edits. }}
+**Summary.** {{ Short summary of in-place edits. }}
 
-**Verification Impact.** {{ Stack rebase, no-drift check, tests, manual checks, evidence, or re-verification now required. }}
+**Verification Impact.** {{ Stack rebase, no-drift, tests, manual checks, or re-verification. }}
 
 *End of stacked deliverable specification.*

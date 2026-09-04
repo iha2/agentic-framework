@@ -1,8 +1,8 @@
 # Graphify setup prompt (copy-paste to agent)
 
-Copy everything inside the fenced block below and paste it into Cursor (or another coding agent) on the **new computer**.
+Paste fenced block into Cursor (or coding agent) on the **new computer**.
 
-**Faster alternative:** use the setup kit script instead of an agent:
+**Faster:** setup kit script, not agent:
 
 ```bash
 cd ~/Documents/Projects/graphify-setup-kit
@@ -201,8 +201,6 @@ When done, report:
 
 ## Shorter version (minimal prompt)
 
-Use this if you want a compact prompt:
-
 ```
 Set up Graphify on this machine for ~/Documents/Projects/global-services.
 
@@ -219,7 +217,7 @@ Report node count, benchmark reduction, and pass/fail. Fix any errors yourself. 
 
 ## Tips
 
-- **Fastest path:** `graphify-setup-kit/install.sh -o -b -v` — no agent needed.
-- Run the prompt in **Agent mode** on the new computer with the global-services folder open (or let the agent clone it).
-- If you have the reference machine handy, copy the whole `graphify-setup-kit/` folder instead of recreating files.
-- After setup, run `graphify update .` whenever you `git pull` or change scoped code.
+- **Fastest:** `graphify-setup-kit/install.sh -o -b -v` — no agent.
+- **Agent mode** with global-services open (or clone).
+- Copy `graphify-setup-kit/` from reference machine vs recreating files.
+- Post-setup: `graphify update .` after `git pull` or scoped code edits.
