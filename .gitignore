@@ -1,0 +1,15 @@
+# Local graphify artifacts (never commit)
+graphify-out/
+.graphify_detect.json
+.graphify_analysis.json
+.graphify_labels.json
+
+# Local env / caches
+.env
+.env.*
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+.DS_Store

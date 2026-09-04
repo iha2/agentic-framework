@@ -4,20 +4,15 @@ last_updated_at: 2026-05-25
 
 # HTTP layer documentation and tests
 
-This standard governs OpenAPI documentation, error-path tests, and iteration patterns for HTTP endpoints.
+Governs OpenAPI documentation, error-path tests, and iteration patterns for HTTP endpoints.
 
 ## OpenAPI documentation
 
-The `@bp.doc(...)` block is the canonical place to declare every response shape a route may emit — APIFlask uses it to
-assemble the OpenAPI spec exposed at `/docs`, and clients infer error contracts from what is declared there.
+`@bp.doc(...)` is canonical for every response shape a route may emit — APIFlask builds the `/docs` OpenAPI spec from it; clients infer error contracts from declared responses.
 
 ### Document 422 (and every other emitted status)
 
-Every route that can `apiflask.abort(HTTPStatus.UNPROCESSABLE_ENTITY.value, ...)` declares the 422 response in
-`@bp.doc(responses=...)`. The `description` value uses `HTTPStatus.UNPROCESSABLE_ENTITY.phrase`. The OpenAPI spec
-silently omits error codes not declared in `@bp.doc`; clients and consumers of `/docs` need to know which error
-conditions a route may return (review precedent; see
-quality_bank_create.py).
+Every route that can `apiflask.abort(HTTPStatus.UNPROCESSABLE_ENTITY.value, ...)` MUST declare 422 in `@bp.doc(responses=...)`. Use `HTTPStatus.UNPROCESSABLE_ENTITY.phrase` for `description`. Undeclared error codes are omitted from OpenAPI; clients need every emitable status.
 
 ### Desired
 
@@ -58,11 +53,7 @@ quality_bank_create.py).
 
 ### Route description and permissions trailer
 
-Each endpoint defines a module-level `ROUTE_OPENAPI_DESCRIPTION: Final[str]` that ends with the output of
-`generate_openapi_permissions_trailer(ROUTE_REQUIRED_PERMISSIONS)` so the rendered `/docs` page lists the permissions
-required to call the route. View functions themselves do not carry docstrings — the summary and description come from
-`@bp.doc`, and a Python docstring on the view would duplicate that content into a place APIFlask does not surface
-(http-layer-guide.md §Endpoint Module).
+Each endpoint defines module-level `ROUTE_OPENAPI_DESCRIPTION: Final[str]` ending with `generate_openapi_permissions_trailer(ROUTE_REQUIRED_PERMISSIONS)` so `/docs` lists required permissions. View functions MUST NOT carry docstrings — summary/description come from `@bp.doc`; a Python docstring duplicates content APIFlask does not surface (http-layer-guide.md §Endpoint Module).
 
 ### Desired
 
@@ -84,20 +75,11 @@ def create_pipeline_view(json_data: PipelineCreateJSONInput) -> PipelineCreateRe
 
 ### Exercise new endpoints via `/docs`
 
-Before marking a PR ready for review, exercise each new endpoint via the repo's documented local API docs URL, commonly
-`<LOCAL_API_BASE_URL>/docs`. A successful response proves the route registers, `@require_permissions` accepts a valid
-caller with the required permission, and the data layer is reachable — integration failures the unit tests may miss.
-This is not a substitute for automated tests; it catches misconfigurations (missing seed permissions, broken route
-registration, DB connectivity) faster than code review alone.
+Before marking a PR ready, exercise each new endpoint via the documented local API docs URL (commonly `<LOCAL_API_BASE_URL>/docs`). A successful response proves registration, `@require_permissions`, and data-layer reachability — integration failures unit tests may miss. Not a substitute for automated tests; catches misconfigurations (seed permissions, route registration, DB) faster than review alone.
 
 ## Error-path tests
 
-Error-path HTTP tests lock the no-leak invariant explicitly. A status-code-only test passes while the body silently
-leaks internals; locking the invariant prevents future regressions where someone reintroduces `str(exc)` into
-`message=` or `detail`. The pattern: mock the service exception with internal markers in its message — file paths,
-sproc names, schema-internal field names — then assert each marker is absent from the response body, assert the body
-matches the canonical shape (`message == HTTPStatus.<STATUS>.phrase`; `detail` contains only safe fields), and name the
-test method `_without_leaking_internals`.
+Error-path HTTP tests MUST lock the no-leak invariant. Status-only tests pass while bodies leak internals. Pattern: mock the service exception with internal markers (paths, sproc names, schema fields); assert each marker absent from the body; assert canonical shape (`message == HTTPStatus.<STATUS>.phrase`; `detail` only safe fields); name the test `_without_leaking_internals`.
 
 ### Desired
 
@@ -127,18 +109,14 @@ def test_get_report_generation_error_returns_500_without_leaking_internals(
 def test_get_report_generation_error_returns_500(client, mocker):
     mocker.patch("svc.report.run", side_effect=ReportGenerationError("..."))
     response = client.get("/v1/report/foo")
-    assert response.status_code == 500  # wrong: status-only assertion lets body leak silently
+    assert response.status_code == 500  # wrong: status-only; body may leak
 ```
 
-For deeper testing conventions (mocking strategies, fixture organization, naming), see the python-testing standard.
+Deeper mocking/fixtures/naming: see the python-testing standard.
 
 ## Iteration patterns
 
-When iterating over a filtered collection, extract the filter as a named intermediate with a descriptive identifier and
-iterate that named collection. Inlining guard `continue` clauses inside the loop body is rejected because it obscures
-iteration intent. A named filtered collection signals intent at the call site and lets the subsequent loop body focus
-on action rather than guard clauses (review precedent; see
-account_list.py:237-241).
+When iterating a filtered collection, extract the filter as a named intermediate; iterate that. Inlined `continue` guards obscure intent — named filtered collections keep the loop on action.
 
 ### Desired
 
@@ -156,9 +134,8 @@ for public_account in publically_viewable_accounts:
 ```python
 for account in api_accounts:
     if account.username in settings.hidden_account_usernames:
-        continue  # wrong: guard inside the loop body obscures the iteration intent
+        continue  # wrong: guard inside the loop body obscures intent
     ...
 ```
 
-Long, descriptive names are preferred over short ones in this codebase — the keystroke cost is small; the gain in
-readability for both humans and agents is large.
+Prefer long descriptive names over short ones — small keystroke cost; large readability gain for humans and agents.

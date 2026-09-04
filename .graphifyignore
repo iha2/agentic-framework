@@ -1,0 +1,24 @@
+# Noise / generated
+node_modules/
+.pnpm-store/
+.turbo/
+dist/
+build/
+out/
+coverage/
+__pycache__/
+*.pyc
+.venv/
+.git/
+graphify-out/
+
+# Secrets / local env
+.env
+.env.*
+
+# Large / low-signal paths
+tooling/graphify-setup-kit/
+*.lock
+package-lock.json
+poetry.lock
+uv.lock

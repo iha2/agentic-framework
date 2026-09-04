@@ -1,122 +1,49 @@
 # Features and Project Milestones
 
-Feature requirements documents describe durable product capabilities over time. Project
-milestones organize delivery expectations on a timeline. Deliverables are the bounded
-implementation slices that can be associated with a feature for product context and
-slotted into a project milestone for stakeholder planning.
+Feature requirements docs describe durable product capabilities. Project milestones organize delivery expectations on a timeline. Deliverables are bounded implementation slices that may attach to a feature (product context) and a project milestone (stakeholder planning).
 
-The important distinction is:
-
-- Features are functionality-centric. They explain what capability exists, why it
-  matters, and how that capability may evolve through feature roadmap increments.
-- Project milestones are time-centric. They communicate when stakeholders should expect
-  meaningful outcomes, and a single project milestone can contain deliverables from
-  multiple features, bug fixes, chores, or technical investments.
-- Deliverables connect the two worlds: a deliverable may contribute to a feature while
-  also being assigned to the project milestone where the owner expects it to land.
+| Concept | Centricity | Role |
+| --- | --- | --- |
+| Feature | Functionality | What capability exists, why it matters, how it evolves via roadmap increments |
+| Project milestone | Time | When stakeholders expect meaningful outcomes; may mix features, bugs, chores, tech investment |
+| Deliverable | Execution | Bounded slice that can contribute to a feature and land in a milestone |
 
 ## Feature Requirements Documents
 
-Use a feature requirements document when a capability is expected to evolve across multiple deliverables, releases, or user workflows.
+Use when a capability evolves across multiple deliverables, releases, or workflows.
 
-Recommended contents:
-
-- Purpose and user value
-- Current state
-- Target capability
-- User journeys or operating workflows
-- Feature roadmap increments
-- Related project milestones when known
-- Success criteria
-- Key decisions and links to proposals
-- Architecture links
-- Open questions
+Recommended contents: purpose/user value, current state, target capability, journeys/workflows, feature roadmap increments, related milestones, success criteria, key decisions/proposal links, architecture links, open questions.
 
 ## Feature Roadmap Increments
 
-A feature roadmap increment is a capability-oriented step in the evolution of a
-feature. It helps the team explain how the feature becomes more useful over time, but it
-is not the authoritative project timeline container.
+Capability-oriented steps in a feature’s evolution — not the authoritative project timeline. Name: intended outcome, candidate/known deliverables, excluded work, feature-level success criteria, dependencies/sequencing.
 
-Feature roadmap increments should name:
-
-- intended outcome
-- candidate or known deliverables
-- excluded work
-- feature-level success criteria
-- dependencies and sequencing constraints
-
-Use roadmap increments when feature narrative needs sequencing. Use project milestones
-when the team is communicating dates, timeline windows, stakeholder commitments, or
-cross-feature delivery groupings.
+Use increments for feature narrative sequencing; use project milestones for dates, windows, stakeholder commitments, and cross-feature groupings.
 
 ## Project Milestones
 
-A project milestone is a project-scoped planning container used to communicate when a
-set of outcomes is expected to land. Milestones are useful because stakeholders often
-care less about the internal feature boundary and more about when a coherent set of work
-will be done.
+Project-scoped planning containers. Name or expose: planned dates/window, included deliverables (multi-feature OK), stakeholder outcome, excluded/deferred scope, release/acceptance criteria, dependencies.
 
-Project milestones should name or expose:
-
-- planned start and end dates, target date, or release window
-- included deliverables, which may come from multiple features
-- stakeholder-facing outcome
-- excluded work or deferred scope
-- release, acceptance, or readiness criteria
-- dependencies and sequencing constraints
-
-When a repo uses Jira, GitHub Projects, or another tracker as the project planning
-surface, that system may be the canonical source for project milestone records, dates,
-deliverable assignment, and timeline state. Feature requirements documents can link to
-project milestones, but they should not duplicate or redefine the project milestone
-schedule. Roadmap docs, tracker milestone records, board views, or Gantt charts can all
-represent project milestones and their associated deliverables. The core methodology
-concept is simpler: projects have milestones, and deliverables are assigned to those
-milestones for timeline communication.
+When Jira/GitHub Projects/another tracker is canonical for milestone records and assignment, feature docs link to it — do not duplicate the schedule. Core rule: projects have milestones; deliverables are assigned to them for timeline communication.
 
 ## Time-Boxed Deliverables
 
-Deliverables are time-boxed execution units. Each one gets a deliverable specification and should fit inside one worktree unless the team intentionally uses a stacked branch lane.
-
-Good deliverables:
-
-- have a clear user, system, or operational outcome
-- can be verified with acceptance criteria
-- have a bounded file and behavior scope
-- can produce a reviewable PR
-
-If a deliverable cannot be tested or reviewed independently, split it or move the uncertainty back to a proposal, feature doc, or architecture doc.
+Each deliverable gets a specification and fits one worktree unless the team intentionally uses a stacked lane. Good deliverables: clear outcome, verifiable ACs, bounded scope, reviewable PR. If not independently testable/reviewable, split or return uncertainty to proposal/feature/architecture.
 
 ## Storage
 
-Feature requirements and related project milestone history live in the repo's declared
-durable storage surface. In committed Markdown mode, feature requirements usually live
-under `<DOCS_ROOT>/features/`, while roadmap or plan documents may live under
-`<DOCS_ROOT>/roadmap/` when the team keeps them separately from feature docs. In wiki,
-knowledge-base, tracker, or external board mode, `AGENTS.md` should identify the
-feature, roadmap, and project milestone sources of truth.
-
-Active deliverable specifications remain under `<DOCS_ROOT>/specifications/` while
-run logs, QA notes, handoffs, and scratch project milestone analysis belong under
-`<DOCS_ROOT>/execution/` or the declared tracker/service while the work is underway.
-When implementation changes shipped behavior, promote the durable feature, roadmap, or
-project milestone update into the declared durable docs surface.
+Durable feature/milestone history lives in the declared durable surface (`<DOCS_ROOT>/features/`, optional `<DOCS_ROOT>/roadmap/`, or wiki/tracker per `AGENTS.md`). Active specs under `<DOCS_ROOT>/specifications/`; run logs/QA/handoffs under `<DOCS_ROOT>/execution/` or declared tracker. Promote durable feature/roadmap/milestone updates when shipped behavior changes.
 
 ## Relevant Skills
 
-| Skill | How it helps efficiency |
-| ----- | ----------------------- |
-| `feature-doc-builder` | Builds and maintains feature requirements, feature roadmap increments, open questions, and durable capability history. |
-| `proposal-builder` | Resolves product or technical uncertainty before a feature roadmap hardens around the wrong assumption. |
-| `architecture-doc-builder` | Adds design depth for features that span multiple deliverables, services, workflows, or data boundaries. |
-| `spec-builder` | Slices approved deliverables from feature roadmap or project milestone context into executable specifications with acceptance criteria and test intent. |
-| `jira-api` | Provides Jira-backed context for issue scope, deliverable assignment, and acceptance criteria when the repo uses Jira. |
-| `confluence` | Drafts or promotes durable feature, roadmap, project milestone, and completed-spec pages when Confluence is the repo-declared surface. |
-| Companion board/tracker integration (repo-configured) | Synchronizes project milestones, feature-linked deliverables, deliverable assignment, and execution state when the repo uses a project board or external tracker. |
+| Skill | Role |
+| --- | --- |
+| `feature-doc-builder` | Feature requirements + roadmap increments |
+| `proposal-builder` | Resolve uncertainty before roadmap hardens wrong |
+| `architecture-doc-builder` | Multi-deliverable / multi-service design depth |
+| `spec-builder` | Slice deliverables into executable specs |
+| `jira-api` / `confluence` / board integration | When repo-declared |
 
-## Related Sections
+## Related
 
-- [Specifications](./specifications.md)
-- [Code Generation](./code-generation.md)
-- [Testing and Validation](./testing-and-validation.md)
+[Specifications](./specifications.md) · [Code Generation](./code-generation.md) · [Testing](./testing-and-validation.md)

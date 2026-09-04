@@ -10,216 +10,125 @@ Methodology-level proposal
 
 ## Context and Problem Statement
 
-The methodology expects agents and harness-native subagents to reason about parallel execution, file ownership, and overlapping-file risk. That introduces a practical question:
+Methodology expects agents/subagents to reason about parallel execution, file ownership, overlapping-file risk:
 
-- where should a repo declare its shared-file coordination model
-- how should execution agents know whether to use project board locks, Switchman, harness-native coordination, or strict serialization
-- how do we avoid agents guessing, over-inferencing, or creating inconsistent coordination behavior across repos
+- where repos declare shared-file coordination
+- how execution agents choose project board locks, Switchman, harness-native coordination, or serialization
+- how to prevent guessing, over-inference, inconsistent coordination
 
-The current need is clarity first, not premature abstraction. Repos may use very different execution environments, and many will not use any external locking tool at all.
+Need clarity first, not premature abstraction — execution environments differ; many repos use no external locking.
 
 ## Scope and Non-Goals
 
-In scope:
+**In scope:** methodology approach; `AGENTS.md` vs skill placement; future tooling roadmap.
 
-- define a clear methodology approach for shared-file coordination policy
-- decide whether this should live in `AGENTS.md`, a separate skill, or both
-- outline a future roadmap for dedicated coordination tooling
-
-Out of scope:
-
-- implementing a live file-locking integration
-- defining a Switchman protocol before the tool exists
-- making agents responsible for discovering undeclared coordination tools
+**Out of scope:** live file-locking integration; Switchman protocol pre-tool; agents discovering undeclared coordination tools.
 
 ## Business Justification
 
-- Reduces collisions and rework when multiple agents or sub-agents operate in the same deliverable.
-- Gives maintainers one clear place to declare execution policy.
-- Keeps methodology adoption practical for repos that do not use project board or any external coordination tool.
+- Fewer collisions/rework with parallel agents.
+- Single maintainer declaration point.
+- Practical adoption without project board or external tools.
 
 ## Technical Justification
 
-- Agent execution behavior should be deterministic and auditable.
-- Coordination policy is repository workflow configuration, not a secret or runtime environment concern.
-- File coordination is an execution concern that may vary by harness, repo, and adoption level.
-- A clear policy boundary prevents agents from inventing locking behavior based on incidental repo clues.
+- Execution behavior MUST be deterministic and auditable.
+- Coordination policy = repo workflow config, not secret/runtime env.
+- Varies by harness/repo/adoption; clear boundary prevents invented locking from incidental clues.
 
 ## Alternatives Considered
 
-## Option A: Keep Shared-File Coordination Policy in `AGENTS.md` Only
+### Option A: `AGENTS.md` only
 
-Summary:
-Declare the repo's coordination model directly in `AGENTS.md`. The specification or execution contract documents it when relevant. Execution agents apply it.
+Declare coordination in `AGENTS.md`; spec/execution contract references when relevant.
 
-Pros:
+**Pros:** obvious SoT; human-reviewable; works with board/Switchman/none; minimal complexity.
 
-- One obvious source of truth per repo
-- Easy for humans to review and update
-- Works whether the repo uses project board, Switchman, or no external tool
-- Minimizes methodology complexity right now
+**Cons:** policy without implementation; tool detail may outgrow short section.
 
-Cons:
+### Option B: Dedicated skill now
 
-- `AGENTS.md` can describe policy, but it does not provide implementation capability by itself
-- Tool-specific operational detail may eventually outgrow a short repo policy section
+New skill resolves/applies coordination mechanism.
 
-## Option B: Add a Dedicated Shared-File Coordination Skill Now
+**Pros:** centralized instructions; future adapters; less duplication across workflow skills.
 
-Summary:
-Create a new skill that determines and applies the available coordination mechanism for a repo.
+**Cons:** premature without integrations; over-design; indirection for maintainers/agents.
 
-Pros:
+### Option C: Environment variables
 
-- Centralizes coordination instructions
-- Could evolve into one place for tool adapters and runtime rules
-- Reduces repeated wording across workflow skills
+Env vars select board/Switchman/harness-native.
 
-Cons:
+**Pros:** automation-readable; CI convenience.
 
-- Too early unless the actual integrations exist
-- Risks over-designing around a capability that is still mostly conceptual
-- Creates another layer of indirection for repo maintainers and agents
-
-## Option C: Use Environment Variables to Select the Coordination Mechanism
-
-Summary:
-Set env vars that tell the agent whether to use project board locks, Switchman, or harness-native coordination.
-
-Pros:
-
-- Easy for automation to read
-- Potentially convenient in CI or managed agent environments
-
-Cons:
-
-- Poor visibility for humans
-- Easy to drift from repo documentation
-- Not a good fit for workflow policy
-- Weak auditability compared with checked-in repo docs
+**Cons:** poor human visibility; doc drift; weak auditability; ill-suited to workflow policy.
 
 ## Tradeoff Analysis
 
-The key tradeoff is simplicity versus future modularity.
-
-Right now, the methodology needs:
-
-- a single place to declare policy
-- clear agent behavior when no external coordination tool exists
-- no guessing
-
-That points strongly toward `AGENTS.md` as the immediate answer.
-
-A separate coordination skill becomes attractive later, but only once there is real implementation behind it. Until then, a skill would mostly restate policy that is better kept directly in the repo's `AGENTS.md`.
+Simplicity vs future modularity. Immediate needs: single policy locus; explicit behavior without external tools; no guessing → **`AGENTS.md`**. Separate skill attractive later with real implementation; until then it restates policy better kept in-repo.
 
 ## Standards and Constraints Analysis
 
-This proposal should align with existing methodology direction:
+Aligns with methodology:
 
-- `AGENTS.md` already serves as the repo source of truth for docs root, tracking system, and workflow rules
-- specifications should capture execution guidance, not invent workflow policy
-- agents should follow repo-declared execution policy, not infer missing infrastructure
-
-This proposal preserves those boundaries cleanly.
+- `AGENTS.md` = SoT for docs root, tracking, workflow
+- specs capture execution guidance, not invent policy
+- agents follow repo-declared policy, not infer infrastructure
 
 ## Risks and Mitigations
 
-Risk:
-`AGENTS.md` becomes too long or too operational.
+**`AGENTS.md` bloat** → short policy section; tool detail in companion/future skills.
 
-Mitigation:
-Keep the shared-file coordination section short and policy-oriented. Tool-specific execution detail stays in companion utility skills or future integration skills.
+**Undeclared policy** → default explicit: silent `AGENTS.md` ⇒ no external locking; harness-native coordination; serialize overlapping-file work.
 
-Risk:
-Repos forget to declare any coordination policy.
+**Divergent implementations** → coordination skill only when ≥1 real path justifies abstraction beyond policy.
 
-Mitigation:
-Make the methodology default explicit: if `AGENTS.md` is silent, assume no repo-declared external locking tool exists and use harness-native coordination with serialization for overlapping-file work.
+## Dependencies and Sequencing
 
-Risk:
-Different repos will need different implementations over time.
+Near-term: `AGENTS.md` template supports coordination declaration.
 
-Mitigation:
-Add a future coordination skill only when at least one real implementation path exists and the abstraction provides value beyond policy declaration.
-
-## Dependencies and Sequencing Considerations
-
-Near-term dependency:
-
-- `AGENTS.md` template must explicitly support shared-file coordination declaration
-
-Future dependency if external coordination grows:
-
-- dedicated integration skills or adapters for specific mechanisms
+Future: integration skills/adapters per mechanism.
 
 ## Recommendation
 
-Use a simple two-layer model.
+Two-layer model:
 
-1. `AGENTS.md` should carry only a short repo policy:
-   - which coordination model the repo uses
-   - when it applies
-   - what the fallback is
-2. The deliverable specification should translate that policy into explicit execution guidance:
-   - serialization hotspots
-   - safe parallel streams
-   - steps that must not overlap
-   - phase and step sequencing implications
-3. The implementation agent should apply the repo policy and the specification's sequencing guidance during execution.
+1. **`AGENTS.md`** — short repo policy: model, when it applies, fallback.
+2. **Deliverable spec** — execution guidance: serialization hotspots, safe parallel streams, non-overlapping steps, phase sequencing.
+3. **Implementation agent** — applies policy + spec sequencing.
 
-Methodology default:
+**Default:** silent `AGENTS.md` ⇒ no external locking; harness-native coordination; serialize overlapping-file work without guaranteed isolation.
 
-- If `AGENTS.md` is silent, assume no repo-declared external locking tool exists.
-- In that case, use coordination native to the active agent harness.
-- Serialize overlapping-file work when safe isolation is not guaranteed.
-
-Future direction:
-
-- Add a dedicated coordination skill only once there is a real implementation surface to wrap.
-- Keep that future skill draft-only until at least one concrete mechanism exists beyond policy declaration.
+**Future:** dedicated skill when real implementation surface exists; draft-only until concrete mechanism beyond policy.
 
 ## Proposed Future Skill Direction
 
-Recommended future skill name:
+Name: `shared-file-coordination`. Companion utility for execution agents; applies declared policy via tool adapters.
 
-- `shared-file-coordination`
-
-Suggested role:
-
-- companion utility skill for execution agents
-- resolves how a declared repo coordination policy is actually applied
-- wraps tool-specific adapters rather than forcing every workflow skill to own each mechanism directly
-
-Suggested maturity path:
-
-1. Draft skill only, clearly marked not implemented
-2. First concrete adapter: project board locking if needed beyond current execution-agent usage
-3. Second concrete adapter: Switchman, once protocol and operational rules are defined
-4. Optional harness-specific adapters only if a harness exposes explicit coordination APIs worth standardizing
+Maturity: (1) draft, not implemented; (2) board locking adapter; (3) Switchman when protocol defined; (4) optional harness adapters for explicit coordination APIs.
 
 ## Discussion Log / Notable Arguments
 
-- Shared-file coordination should not become a maze of hierarchy and fallback rules.
-- Environment variables are a poor primary source for this kind of repo policy.
-- Execution agents need clarity more than flexibility.
-- Many repos will have no external locking tool, so the methodology default must be explicit and safe.
-- A future Switchman-style skill is likely valuable, but only when it is real enough to justify the abstraction.
+- Avoid coordination maze of hierarchy/fallbacks.
+- Env vars poor primary policy source.
+- Execution agents need clarity over flexibility.
+- Many repos: no external tool — default MUST be explicit/safe.
+- Switchman skill valuable when real enough to justify abstraction.
 
 ## Decision Checklist
 
-- Should the methodology formally require a `Shared-file coordination` section in repo `AGENTS.md`?
-- Should the methodology add a draft `shared-file-coordination` skill to the roadmap now, without implementation?
+- Require `Shared-file coordination` section in repo `AGENTS.md`?
+- Add draft `shared-file-coordination` skill to roadmap without implementation?
 
 ## Open Questions
 
-- Should the future coordination skill be generic (`shared-file-coordination`) or tool-specific (`switchman`, `board-locking`)?
-- Should the methodology eventually normalize a common coordination vocabulary across all supported tools?
-- Should the future skill expose only execution behavior, or also lightweight policy validation against `AGENTS.md`?
+- Generic vs tool-specific skill naming?
+- Normalize coordination vocabulary across tools?
+- Skill: execution only vs lightweight `AGENTS.md` policy validation?
 
 ## Sign-off Outcome and Next-Phase Handoff
 
-If approved, the next steps would be:
+If approved:
 
-1. Keep `AGENTS.md` concise and policy-only for shared-file coordination.
-2. Make deliverable specifications responsible for expressing the sequencing consequences of that policy.
-3. Optionally create a draft `shared-file-coordination` roadmap skill once the team wants to formalize future integration work.
+1. Keep `AGENTS.md` concise, policy-only.
+2. Specs express sequencing consequences.
+3. Optionally draft roadmap skill when formalizing integration work.
